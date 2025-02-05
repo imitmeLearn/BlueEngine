@@ -1,6 +1,7 @@
 ﻿#include<Windows.h>
 #include<winerror.h>
 #include "Core/Window.h"
+#include "render/renderer.h"
 
 /*
 typedef LRESULT(CALLBACK* WNDPROC)(HWND, UINT, WPARAM, LPARAM);	//원본
@@ -55,6 +56,9 @@ int WINAPI WinMain(
 {
 	//창 생성
 	Window window(1280,800,TEXT("ENGINE DEMO"),hInstance,WindowProc); 	//Blue::Window window;
+
+	//렌더러 생성
+	Renderer renderer(window.Width(),window.Height(),window.Handle());
 
 	//메시지 처리 루프
 	MSG msg = {};
