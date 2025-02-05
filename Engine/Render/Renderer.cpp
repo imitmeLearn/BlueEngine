@@ -49,8 +49,42 @@ Renderer::Renderer(uint32 width,uint32 height,HWND window)
 	//결과 확인
 	if(FAILED(result))
 	{
-		MessageBoxA(nullptr,"fail ","ERROR",MB_OK);
+		MessageBoxA(nullptr,"fail to D3D11CreateDeviceAndSwapChain ","ERROR",MB_OK);
+		__debugbreak();
 	}
+
+	//이미지 그리는 대상 (=렌더타겟) 뷰 생성 : 크기는 창 크기와 같아야 한다.
+	ID3D11Texture2D* backbuffer = nullptr; //받아올려고, 포인터타입으로...
+
+	result =swapChain -> GetBuffer(0,IID_PPV_ARGS(&backbuffer));	//ㄴ 메크로! <- //swapChain -> GetBuffer(0,__uuidof(backbuffer),reinterpret_cast<void**> (&backbuffer));
+
+	if(FAILED(result))//결과 확인
+	{
+		MessageBoxA(nullptr,"fail to get back buffer ","ERROR",MB_OK);
+		__debugbreak();
+	}
+
+	result=	device -> CreateRenderTargetView(backbuffer,nullptr,&renderTargetView);
+
+	if(FAILED(result))	//결과 확인
+	{
+		MessageBoxA(nullptr,"fail to CreateRenderTargetView  ","ERROR",MB_OK);
+		__debugbreak();
+	}
+
+	//렌더 타겟 뷰 바인딩(연결)
+	context -> OMSetRenderTargets(1,&renderTargetView,nullptr);
+
+	//뷰 포트(화면)
+	viewport.TopLeftX = 0.f;
+	viewport.TopLeftY = 0.f;
+	viewport.Width = (float)width;
+	viewport.Height= (float)height;
+	viewport.MaxDepth = 1.f;
+	viewport.MinDepth= 0.f;
+
+	//퓨 포트 설정
+	context -> RSSetViewports(1,&viewport);
 }
 Renderer::~Renderer()
 {}
