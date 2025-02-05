@@ -1,5 +1,6 @@
 ﻿#include<Windows.h>
 #include<winerror.h>
+#include "Core/Window.h"
 
 /*
 typedef LRESULT(CALLBACK* WNDPROC)(HWND, UINT, WPARAM, LPARAM);	//원본
@@ -43,6 +44,7 @@ _In_ LPSTR lpCmdLine,는
 WNDClass 만들어서, 창 생성하는거 나오는데,. 복사해
 */
 
+using namespace Blue;
 //창 모드로 할 때 메인 함수(Entry Point)
 int WINAPI WinMain(
 	_In_ HINSTANCE hInstance,
@@ -51,86 +53,8 @@ int WINAPI WinMain(
 	_In_ int nShowCmd
 )
 {
-	// Register the window class.
-	//창에 사용할 클래스 이름
-	//const wchar_t CLASS_NAME[] = L"Sample Window Class"; //원본
-	const wchar_t* className = TEXT("Sample Window Class");	//창에 사용할 클래스 이름 //배열대신, 포인터 사용해도 됨.
-	//L TEXT  같은거, 메크로야! 타고 들어가면, 유니코드 설정되었을떄 L##quote
-
-	//  = { }; // 기본값 넣어주는거 //좋은 습관, 구조체 엄청만들어서, 기본값 넘기고 하는 것을 많이하게 될것임.
-	WNDCLASS wc = {};		//창 생성에 필요한 설정 구조체.
-
-	wc.lpfnWndProc = WindowProc; 	//메세지 처리를 위한 콜백 전달.
-	wc.hInstance = hInstance; //프로그램 주소 전달.
-	wc.lpszClassName = className; //창 생성에 사용할 클래스 이름 전달.	//필수!!!!
-
-	if(!RegisterClass(&wc))
-	{
-		auto error = GetLastError();	 //오류메세지 확인
-
-		OutputDebugStringA("Fail to register a window class \n");
-		MessageBoxA(nullptr,"Fail to register a window ","Error",MB_OK);
-
-		__debugbreak();
-	}
-	//else
-	//{
-	//	//메세지 출력 //std::cout 못써...  //콜솔 아닌 창 환경으로 바뀌었기에직접 만들어서 써야해.
-	//	//메세지 출력 #1 - 출력창 (output) 이용.
-	//	OutputDebugStringA("창 등록 잘 됨 \n");
-
-	//	//메세지 출력 #2 - 메세지박스 이용.
-	//	MessageBoxA(nullptr, "창 생성 잘됨", "택스트 메세지", MB_OK);
-
-	//	//__debugbreak();
-	//}
-
-	//창 크기
-	unsigned int width = 1280;
-	unsigned int height = 800;
-	//화면 가운데 위치 설정
-	unsigned int positionX = (GetSystemMetrics(SM_CXSCREEN) - width) / 2;
-	unsigned int positionY = (GetSystemMetrics(SM_CYSCREEN) - height) / 2;
-
-	//창　크기 조정 - 방법1  // 방법2 : GetClientRect
-	RECT rect = {0,0,(long)width,(long)height};
-	AdjustWindowRect(&rect,WS_OVERLAPPEDWINDOW,FALSE);
-
-	//창 크기 재설정
-	unsigned int windowWidth = rect.right - rect.left;
-	unsigned int windowHeight = rect.bottom - rect.top;
-
-	//생성
-	HWND hwnd = CreateWindow(
-
-		className,                     // Window class
-		TEXT("Blue Engine Demo"),    // Window text
-		WS_OVERLAPPEDWINDOW,            // Window style
-
-		// Size and position
-		//CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
-		//positionX,positionY,width,height,
-		positionX,positionY,windowWidth,windowHeight,
-
-		nullptr,       // Parent window
-		nullptr,       // Menu
-		hInstance,  // Instance handle
-		nullptr        // Additional application data
-	);
-
-	if(hwnd == NULL)
-	{
-		OutputDebugStringA("Fail to create a window class \n");
-		MessageBoxA(nullptr,"Fail to create a window ","Error",MB_OK);
-
-		__debugbreak();
-	}
-
-	//창 보이기.
-	ShowWindow(hwnd,SW_SHOW);
-
-	//창 메세지 업데이트.
-	UpdateWindow(hwnd);
+	//창 생성
+	Window window(1280,800,TEXT("ENGINE DEMO"),hInstance,WindowProc); 	//Blue::Window window;
 
 	//메시지 처리 루프
 	MSG msg = {};
