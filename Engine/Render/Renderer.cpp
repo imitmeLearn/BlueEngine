@@ -1,5 +1,5 @@
 ﻿#include "Renderer.h"
-
+#include <vector>
 namespace 	Blue
 {
 Renderer::Renderer(uint32 width,uint32 height,HWND window)
@@ -85,6 +85,57 @@ Renderer::Renderer(uint32 width,uint32 height,HWND window)
 
 	//퓨 포트 설정
 	context -> RSSetViewports(1,&viewport);
+
+	//정점 데이터 생성
+	float vertices[] =
+	{
+		//화면 기본 좌표,
+		0.f,0.5f,0.5f
+		,0.5f,-0.5f,0.5f
+		,-0.5f,-0.5f,0.5f
+	};
+
+	//@Temp 임시 리소스 생성 - 버텍스
+	D3D11_BUFFER_DESC vertexBufferDesc = {};
+	vertexBufferDesc.ByteWidth = sizeof(float) *3 *3;
+	vertexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER; //필수
+
+	D3D11_SUBRESOURCE_DATA vertexData = {};	//정점 데이터 //여러데이터, 하나로 넣을 떄 사용
+	vertexData.pSysMem =	vertices;
+
+	result= device -> CreateBuffer(&vertexBufferDesc,&vertexData,&vertexBuffer);		//버퍼(Buffer) 메모리 덩어리 - 버텍스
+	if(FAILED(result))	//결과 확인
+	{
+		MessageBoxA(nullptr,"fail to CreateBuffer - vertex  ","ERROR",MB_OK);
+		__debugbreak();
+	}
+
+	//인덱스 (색인) 버퍼 생성 (정점을 조립하는 순서)
+	int indeice[] =
+	{
+		0,1,2
+	};
+
+	//@Temp 임시 리소스 생성 - 인덱스
+	D3D11_BUFFER_DESC indexBufferDesc = {};
+	indexBufferDesc.ByteWidth = sizeof(int)  *3;
+	indexBufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER; //필수
+
+	D3D11_SUBRESOURCE_DATA indexData = {};	//정점 데이터 //여러데이터, 하나로 넣을 떄 사용
+	indexData.pSysMem =	indeice;
+
+	result=	device -> CreateBuffer(&indexBufferDesc,&indexData,&indexBuffer);	//버퍼(Buffer) 메모리 덩어리  - 인덱스
+	if(FAILED(result))	//결과 확인
+	{
+		MessageBoxA(nullptr,"fail to CreateBuffer -index ","ERROR",MB_OK);
+		__debugbreak();
+	}
+	//쉐이더 컴파일,
+	//쉐이더 생성/
+
+	//입력 레이아웃, //정점 쉐이더에 전달할 정점 데이터가 어떻게 생겼는지 알려줌.
+
+	//device->CreateInputLayout();
 }
 Renderer::~Renderer()
 {}
