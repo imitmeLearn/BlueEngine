@@ -2,27 +2,13 @@
 #include<winerror.h>
 #include "Core/Window.h"
 #include "render/renderer.h"
+#include "Core/Engine.h"
 
 /*
 typedef LRESULT(CALLBACK* WNDPROC)(HWND, UINT, WPARAM, LPARAM);	//원본
 LRESULT CALLBACK WindowProc(HWND, UINT, WPARAM, LPARAM);	//가능//사용하는거
 LRESULT  WindowProc(HWND, UINT, WPARAM, LPARAM);		//가능
 */
-
-//창에 관련된 메시지를 처리하는 콜백
-LRESULT CALLBACK WindowProc(HWND handle,UINT message,WPARAM wparam,LPARAM lparam)	//가능//사용하는거
-{
-	switch(message)
-	{
-		//창이 삭제되면 ,실행
-	case WM_DESTROY:
-	PostQuitMessage(0);	//프로그램 종료 메시지 발행.
-	return 0;
-	default:
-	break;
-	}
-	return DefWindowProc(handle,message,wparam,lparam);	 //윈도우가 제공하는 함수	//기본 메세지처리
-}
 
 //WINAPI는 define 이야, stdcall cdecl(함수호출규약) 있는데, 스택에 올라갈때, 스택 어떻게 쓸지 규약이 있어.크게 나누면, 사용자 함수랑 시스템 함수 있어 스택잡히는것이 피라미터 잡히는거 반대야
 //시스템함수이기에, 앞에 붙여주는거야, 안붙이면, 기본값을 붙여, stdcall, 안붙이면, cdecl 사용자함수로,
@@ -54,30 +40,8 @@ int WINAPI WinMain(
 	_In_ int nShowCmd
 )
 {
-	//창 생성
-	Window window(1280,800,TEXT("ENGINE DEMO"),hInstance,WindowProc); 	//Blue::Window window;
-
-	//렌더러 생성
-	Renderer renderer(window.Width(),window.Height(),window.Handle());
-
-	//메시지 처리 루프
-	MSG msg = {};
-	//while(msg.message != WM_DESTROY)
-	while(msg.message != WM_QUIT)
-	{
-		//창에 메시지가 들어올 때 실행.
-		if(PeekMessage(&msg,nullptr,0,0,PM_REMOVE))
-		{
-			TranslateMessage(&msg);	//메시지 번역.
-			DispatchMessage(&msg);	//메시지 전달.
-		}
-		//창에 메시지가 없을 때 다른 작업 처리
-		else
-		{
-			//엔진 루프
-			renderer.Draw();
-		}
-	}
+	Engine engine (1280,900,TEXT("ENGINE DEMO"),hInstance);		//엔진 생성
+	engine.Run();												//엔진 실행
 
 	return 0;
 }
