@@ -75,6 +75,7 @@ int WINAPI WinMain(
 		else
 		{
 			//엔진 루프
+			renderer.Draw();
 		}
 	}
 

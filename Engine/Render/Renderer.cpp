@@ -89,5 +89,16 @@ Renderer::Renderer(uint32 width,uint32 height,HWND window)
 Renderer::~Renderer()
 {}
 void Renderer::Draw()
-{}
+{
+	//그리기 전 작업
+	// 	   # 지우기
+	//float color[] = {.6f,.7f,.8f,1.f};
+	float color[] = {.7f,.8f,.95f,1.f};
+	context->ClearRenderTargetView(renderTargetView,color);
+	//드로우
+
+	//버퍼교환 -모니터 싱글
+
+	swapChain->Present(1u,0u);
+}
 }
