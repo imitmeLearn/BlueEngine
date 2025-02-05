@@ -5,7 +5,7 @@
 namespace Blue
 {
 Engine* Engine:: instance = nullptr;	//싱글통 객체 설정
-Engine::Engine(uint32 width,uint32 height,const std::wstring& title,HINSTANCE hInstance)
+Engine::Engine(uint32 width,uint32 height,const std::wstring& title,HINSTANCE hInstance)	// const std::wstring& //임시값 참조로 하려면 const 붙이기! cpp 규약에 나옴. ->https://learn.microsoft.com/ko-kr/cpp/cpp/reference-type-function-arguments?view=msvc-170
 {
 	instance = this;	//싱글톤 객체 값 설정.
 	window = std::make_shared<Window>(width,height,title,hInstance,WindowProc);	//창 객체 생성
