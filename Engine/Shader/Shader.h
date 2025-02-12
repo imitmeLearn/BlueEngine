@@ -8,7 +8,7 @@ class Shader
 public:
 	virtual	~Shader();
 
-	Shader(const std::wstring& name);
+	Shader(const std::wstring& name = L"Default");
 
 	//GPU 쉐이더 객체를 연결(바인딩)하는 함수.
 	virtual void Bind() ;

@@ -31,11 +31,15 @@ Shader::~Shader()
 Shader::Shader(const std::wstring& name)
 	:name(name)
 {
+	//경로 추가
+	wchar_t path[256]={};
+	swprintf_s(path,256,L"HLSLShader/%sVertexShader.hlsl",name.c_str());
+
 	//쉐이더 컴파일,
 	auto result = D3DCompileFromFile(
-		  //TEXT("../Shader/VertexShader.hlsl"),nullptr,nullptr,"main","vs_5_0",0,0	//안돼
-
-		TEXT("Shader/VertexShader.hlsl")
+		//TEXT("../Shader/VertexShader.hlsl"),nullptr,nullptr,"main","vs_5_0",0,0	//안돼
+		//TEXT("Shader/VertexShader.hlsl")
+		path
 		  ,nullptr,nullptr,"main","vs_5_0",0,0
 			  ,&vertexShaderBuffer /*컴파일한 결과 obj 나오면, 임시로 저장하고 이를 기준으로 쉐이더 생성하니까.*/
 			  ,nullptr);
@@ -91,10 +95,13 @@ Shader::Shader(const std::wstring& name)
 		__debugbreak();
 	}
 
+	swprintf_s(path,256,L"HLSLShader/%sPixelShader.hlsl",name.c_str());
+
 	//픽셀 쉐이더 컴파일/생성.////
 	result = D3DCompileFromFile(
 	//TEXT("../Shader/PixelShader.hlsl"),nullptr,nullptr,"main","vs_5_0",0,0	//안돼
-	TEXT("Shader/PixelShader.hlsl")
+	//TEXT("Shader/PixelShader.hlsl")
+		path
 		,nullptr,nullptr,"main","ps_5_0",0,0
 		,&pixelShaderBuffer /*컴파일한 결과 obj 나오면, 임시로 저장하고 이를 기준으로 쉐이더 생성하니까.*/
 		,nullptr);
