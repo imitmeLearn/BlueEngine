@@ -1,6 +1,8 @@
 ﻿#include "Renderer.h"
 #include <vector>
 #include <d3dcompiler.h>
+#include"../Math/Vector3.h"
+
 namespace 	Blue
 {
 Renderer::Renderer(uint32 width,uint32 height,HWND window)
@@ -88,17 +90,17 @@ Renderer::Renderer(uint32 width,uint32 height,HWND window)
 	context -> RSSetViewports(1,&viewport);
 
 	//정점 데이터 생성
-	float vertices[] =
+	Vector3 vertices[] =
 	{
 		//화면 기본 좌표,
-		0.f,0.5f,0.5f
-		,0.5f,-0.5f,0.5f
-		,-0.5f,-0.5f,0.5f
+		Vector3(0.f,0.5f,0.5f)
+		,Vector3(0.5f,-0.5f,0.5f)
+		,Vector3(-0.5f,-0.5f,0.5f)
 	};
 
 	//@Temp 임시 리소스 생성 - 버텍스
 	D3D11_BUFFER_DESC vertexBufferDesc = {};
-	vertexBufferDesc.ByteWidth = sizeof(float) *3 *3;
+	vertexBufferDesc.ByteWidth = Vector3::Stride() *3;
 	vertexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER; //필수
 
 	D3D11_SUBRESOURCE_DATA vertexData = {};	//정점 데이터 //여러데이터, 하나로 넣을 떄 사용
@@ -189,6 +191,62 @@ Renderer::Renderer(uint32 width,uint32 height,HWND window)
 
 	//픽셀 쉐이더 컴파일/생성.
 	//각 리소스 바인딩.
+
+		//쉐이더 컴파일,
+	ID3DBlob* vertexShaderBuffer = nullptr;
+
+	result = D3DCompileFromFile(
+	//TEXT("../Shader/VertexShader.hlsl"),nullptr,nullptr,"main","vs_5_0",0,0	//안돼
+	TEXT("Shader/VertexShader.hlsl"),nullptr,nullptr,"main","vs_5_0",0,0
+		,&vertexShaderBuffer /*컴파일한 결과 obj 나오면, 임시로 저장하고 이를 기준으로 쉐이더 생성하니까.*/
+		,nullptr);
+	if(FAILED(result))	//결과 확인
+	{
+		MessageBoxA(nullptr,"fail to D3DCompileFromFile -vertex shader ","ERROR",MB_OK);
+		__debugbreak();
+	}
+
+	//쉐이더 생성/
+	result=	device -> CreateVertexShader(vertexShaderBuffer->GetBufferPointer()
+			,vertexShaderBuffer->GetBufferSize()
+			,nullptr
+			,&verteShader
+	);
+	if(FAILED(result))	//결과 확인
+	{
+		MessageBoxA(nullptr,"fail to CreateVertexShader -vertex shader ","ERROR",MB_OK);
+		__debugbreak();
+	}
+
+	//입력 레이아웃, //정점 쉐이더에 전달할 정점 데이터가 어떻게 생겼는지 알려줌.
+	//typedef struct D3D11_INPUT_ELEMENT_DESC
+	//{
+	//	LPCSTR SemanticName;
+	//	UINT SemanticIndex;
+	//	DXGI_FORMAT Format;	//생김새
+	//	UINT InputSlot;		//슬롯지정
+	//	UINT AlignedByteOffset;
+	//	D3D11_INPUT_CLASSIFICATION InputSlotClass;	//점정 쉐이더 같으면, instance 쓰면 되고 //
+	//	UINT InstanceDataStepRate;
+	//}
+	D3D11_INPUT_ELEMENT_DESC inputDesc[] =
+	{
+		{"POSITION",0,DXGI_FORMAT_R32G32B32_FLOAT, /*별도로 쓰는게 없어서*/0, /*하나밖에없어서*/0
+		,D3D11_INPUT_PER_VERTEX_DATA,0}
+	};
+
+	result = device->CreateInputLayout(
+		inputDesc
+		,1
+		,vertexShaderBuffer->GetBufferPointer()
+		,vertexShaderBuffer->GetBufferSize()
+		,&inputlayout
+	);
+	if(FAILED(result))	//결과 확인
+	{
+		MessageBoxA(nullptr,"fail to CreateInputLayout ","ERROR",MB_OK);
+		__debugbreak();
+	}
 }
 Renderer::~Renderer()
 {}
