@@ -7,6 +7,8 @@ namespace Blue
 {
 class Renderer	//그래픽카드에서 처리하는 일/리소스를 관리하는 클래스 //RHI - Render Hardware Interface.
 {
+	friend class Engine;		//엔진 클래스 friend 선언.
+
 public:
 	Renderer()=default;
 	Renderer(uint32 width,uint32 height,HWND window);

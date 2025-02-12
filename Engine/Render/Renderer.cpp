@@ -156,17 +156,6 @@ void Renderer::Draw()
 	//인덱스 버퍼 전달
 	context ->IASetIndexBuffer(indexBuffer, /*d인덱스 요소 하나의 크기는 얼마냐 - wjscp */ DXGI_FORMAT_R32_UINT,0);
 
-	//입력 레이아웃 전달
-	context->IASetInputLayout(inputlayout);
-
-	//조립할 모양 설정
-	//선을 그리더라도, 미세하게 삼각형 만들어 조합
-	context-> IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-	//쉐이더 설정
-	context->VSSetShader(verteShader,nullptr,0);
-	context->PSSetShader(pixelShader,nullptr,0);
-
 	//드로우콜
 	context->DrawIndexed(3,0,0);
 

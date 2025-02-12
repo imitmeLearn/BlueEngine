@@ -4,6 +4,7 @@
 #include <Windows.h>
 #include <string>
 #include "Type.h"
+#include <d3d11.h>
 
 namespace Blue
 {
@@ -19,7 +20,13 @@ public:
 	//윈도우 메시지 루프 처리
 	static LRESULT CALLBACK WindowProc(HWND handle,UINT message,WPARAM wparam,LPARAM lparam);
 
+	//싱글톤 접근 함수.
 	static Engine& Get();
+
+	//GETTER.
+	ID3D11Device& Device() const;
+	ID3D11DeviceContext& Context() const;
+
 protected:
 
 	std::shared_ptr<class Window> window;		//창 객체
