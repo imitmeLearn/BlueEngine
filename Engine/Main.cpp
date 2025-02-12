@@ -32,16 +32,26 @@ WNDClass 만들어서, 창 생성하는거 나오는데,. 복사해
 */
 
 using namespace Blue;
-//창 모드로 할 때 메인 함수(Entry Point)
-int WINAPI WinMain(
-	_In_ HINSTANCE hInstance,
-	_In_opt_ HINSTANCE hPrevInstance,
-	_In_ LPSTR lpCmdLine,
-	_In_ int nShowCmd
-)
-{
-	Engine engine (1280,900,TEXT("ENGINE DEMO"),hInstance);		//엔진 생성
-	engine.Run();												//엔진 실행
+#pragma region 창 모드로 할 때 메인 함수(Entry Point)
+////창 모드로 할 때 메인 함수(Entry Point)
+//int WINAPI WinMain(
+//	_In_ HINSTANCE hInstance,
+//	_In_opt_ HINSTANCE hPrevInstance,
+//	_In_ LPSTR lpCmdLine,
+//	_In_ int nShowCmd
+//)
+//{
+//	Engine engine (1280,900,TEXT("ENGINE DEMO"),hInstance);		//엔진 생성
+//	engine.Run();												//엔진 실행
+//
+//	return 0;
+//}
+#pragma endregion
 
-	return 0;
+#include <iostream>
+int main()
+{
+	std::cout<< "테스트 - 디버깅 가능해" <<"\n";
+	Engine engine (1280,800,TEXT("Engine DEMO"),GetModuleHandle(nullptr));
+	engine.Run();
 }
