@@ -53,20 +53,10 @@ using namespace Blue;
 
 int main()
 {
-	/*std::cout<< "테스트 - 디버깅 가능해" <<"\n";
+	std::cout<< "테스트 - 디버깅 가능해" <<"\n";
 	Engine engine (1280,800,TEXT("Engine DEMO"),GetModuleHandle(nullptr));
-	engine.Run();*/
+	engine.Run();
 
-	std::cout<< "Vector2 테스트" <<"\n";	//콘솔창에!
-	OutputDebugStringA("테스트!!!!!!!!!!!\n"); //출력창에!
-
-	Vector2 v1(1.f,2.f);
-	Vector2 v2(2.f,4.f);
-
-	Vector2 v3 = v1+v2;
-	Vector2 v4 = 2.f *v1;
-
-	std::wcout<<v3.ToString() << " | "<< "\n";
-	std::wcout<<v1.ToString() << " | " << (-v2).ToString() << "\n";
-	std::wcout<<v3.ToString() << " | " << (-v4).ToString() << "\n";
+	//std::cout<< "Vector2 테스트" <<"\n";	//콘솔창에!
+	//OutputDebugStringA("테스트!!!!!!!!!!!\n"); //출력창에!
 }

@@ -114,6 +114,8 @@ float Dot(const Vector2 & left,const Vector2 & right)	//frien 붙였기에, 외�
 }
 Vector2 Lerp(const Vector2 & from,const Vector2 & to,float t)
 {
+	t = t< 0.f ? 0.f : t < 1.f ? 1.f : t;	//삼항연산 또는 if 로 , 0~1 로 가두기
+
 	return (1.f - t) *from + t * to ;
 }
 Vector2 Vector2::Normalized()

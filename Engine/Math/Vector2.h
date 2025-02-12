@@ -71,7 +71,7 @@ public:
 	bool Equals(const Vector2& other);
 
 	//선형보간 (Lerp - Linear Interpolation)
-	//- 외워야 하는것 =
+	//- 외워야 하는것 = (1.f-t)*from + t*to
 	friend Vector2 Lerp(const Vector2& from,const Vector2& to,float t);
 };
 }
