@@ -2,6 +2,7 @@
 #include <vector>
 #include <d3dcompiler.h>
 #include"../Math/Vector3.h"
+#include "../Shader/Shader.h"
 
 namespace 	Blue
 {
@@ -140,6 +141,12 @@ Renderer::~Renderer()
 {}
 void Renderer::Draw()
 {
+	//쉐이더 객체 생성
+	if(shader == nullptr)
+	{
+		shader = std::make_unique<Shader>();
+	}
+
 	//그리기 전 작업
 	// 	   # 지우기
 	//float color[] = {.6f,.7f,.8f,1.f};
@@ -155,6 +162,8 @@ void Renderer::Draw()
 
 	//인덱스 버퍼 전달
 	context ->IASetIndexBuffer(indexBuffer, /*d인덱스 요소 하나의 크기는 얼마냐 - wjscp */ DXGI_FORMAT_R32_UINT,0);
+
+	shader->Bind();
 
 	//드로우콜
 	context->DrawIndexed(3,0,0);

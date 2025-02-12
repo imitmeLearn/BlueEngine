@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <d3d11.h>
 #include <dxgi.h>
+#include <memory>
 
 #include "../Core/Type.h"
 namespace Blue
@@ -31,9 +32,10 @@ private:
 	//@Temp 임시,
 	ID3D11Buffer* vertexBuffer = nullptr;	//정점 버퍼 (정점 정보를 전달하는 데 사용)
 	ID3D11Buffer* indexBuffer = nullptr;	//인덱스 버퍼 (정점 정보를 조립할 때, 정점의 순소를 전달)
-	ID3D11InputLayout* inputlayout = nullptr;	//입력레이아웃
+	std::unique_ptr<class Shader> shader;	//쉐이더 객체
 
-	ID3D11VertexShader* verteShader = nullptr;	//쉐이더객체  -vertext
-	ID3D11PixelShader* pixelShader = nullptr;	//쉐이더객체  -pixel
+	//ID3D11InputLayout* inputlayout = nullptr;	//입력레이아웃
+	//ID3D11VertexShader* verteShader = nullptr;	//쉐이더객체  -vertext
+	//ID3D11PixelShader* pixelShader = nullptr;	//쉐이더객체  -pixel
 };
 }
