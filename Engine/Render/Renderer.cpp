@@ -189,64 +189,33 @@ Renderer::Renderer(uint32 width,uint32 height,HWND window)
 		__debugbreak();
 	}
 
-	//픽셀 쉐이더 컴파일/생성.
-	//각 리소스 바인딩.
-
-		//쉐이더 컴파일,
-	ID3DBlob* vertexShaderBuffer = nullptr;
+	//픽셀 쉐이더 컴파일/생성.////
+	ID3DBlob* pixelShaderBuffer = nullptr;
 
 	result = D3DCompileFromFile(
-	//TEXT("../Shader/VertexShader.hlsl"),nullptr,nullptr,"main","vs_5_0",0,0	//안돼
-	TEXT("Shader/VertexShader.hlsl"),nullptr,nullptr,"main","vs_5_0",0,0
-		,&vertexShaderBuffer /*컴파일한 결과 obj 나오면, 임시로 저장하고 이를 기준으로 쉐이더 생성하니까.*/
+	//TEXT("../Shader/PixelShader.hlsl"),nullptr,nullptr,"main","vs_5_0",0,0	//안돼
+	TEXT("Shader/PixelShader.hlsl"),nullptr,nullptr,"main","ps_5_0",0,0
+		,&pixelShaderBuffer /*컴파일한 결과 obj 나오면, 임시로 저장하고 이를 기준으로 쉐이더 생성하니까.*/
 		,nullptr);
 	if(FAILED(result))	//결과 확인
 	{
-		MessageBoxA(nullptr,"fail to D3DCompileFromFile -vertex shader ","ERROR",MB_OK);
+		MessageBoxA(nullptr,"fail to D3DCompileFromFile -pixel shader ","ERROR",MB_OK);
 		__debugbreak();
 	}
 
 	//쉐이더 생성/
-	result=	device -> CreateVertexShader(vertexShaderBuffer->GetBufferPointer()
-			,vertexShaderBuffer->GetBufferSize()
+	result=	device -> CreatePixelShader(pixelShaderBuffer->GetBufferPointer()
+			,pixelShaderBuffer->GetBufferSize()
 			,nullptr
-			,&verteShader
+			,&pixelShader
 	);
 	if(FAILED(result))	//결과 확인
 	{
-		MessageBoxA(nullptr,"fail to CreateVertexShader -vertex shader ","ERROR",MB_OK);
+		MessageBoxA(nullptr,"fail to CreatePpixelShader -pixel shader ","ERROR",MB_OK);
 		__debugbreak();
 	}
 
-	//입력 레이아웃, //정점 쉐이더에 전달할 정점 데이터가 어떻게 생겼는지 알려줌.
-	//typedef struct D3D11_INPUT_ELEMENT_DESC
-	//{
-	//	LPCSTR SemanticName;
-	//	UINT SemanticIndex;
-	//	DXGI_FORMAT Format;	//생김새
-	//	UINT InputSlot;		//슬롯지정
-	//	UINT AlignedByteOffset;
-	//	D3D11_INPUT_CLASSIFICATION InputSlotClass;	//점정 쉐이더 같으면, instance 쓰면 되고 //
-	//	UINT InstanceDataStepRate;
-	//}
-	D3D11_INPUT_ELEMENT_DESC inputDesc[] =
-	{
-		{"POSITION",0,DXGI_FORMAT_R32G32B32_FLOAT, /*별도로 쓰는게 없어서*/0, /*하나밖에없어서*/0
-		,D3D11_INPUT_PER_VERTEX_DATA,0}
-	};
-
-	result = device->CreateInputLayout(
-		inputDesc
-		,1
-		,vertexShaderBuffer->GetBufferPointer()
-		,vertexShaderBuffer->GetBufferSize()
-		,&inputlayout
-	);
-	if(FAILED(result))	//결과 확인
-	{
-		MessageBoxA(nullptr,"fail to CreateInputLayout ","ERROR",MB_OK);
-		__debugbreak();
-	}
+	//각 리소스 바인딩.
 }
 Renderer::~Renderer()
 {}
@@ -258,6 +227,29 @@ void Renderer::Draw()
 	float color[] = {.7f,.8f,.95f,1.f};
 	context->ClearRenderTargetView(renderTargetView,color);
 	//드로우
+
+	//리소스 바인딩. //정점쉐이더가 실행되기 전 단계
+	//정점 버퍼 전달
+	static unsigned int stride = Vector3::Stride();
+	static unsigned int offset = 0;
+	context -> IASetVertexBuffers(0,1,&vertexBuffer,/*요소하나의 크기 얼마냐*/&stride,&offset);
+
+	//인덱스 버퍼 전달
+	context ->IASetIndexBuffer(indexBuffer, /*d인덱스 요소 하나의 크기는 얼마냐 - wjscp */ DXGI_FORMAT_R32_UINT,0);
+
+	//입력 레이아웃 전달
+	context->IASetInputLayout(inputlayout);
+
+	//조립할 모양 설정
+	//선을 그리더라도, 미세하게 삼각형 만들어 조합
+	context-> IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	//쉐이더 설정
+	context->VSSetShader(verteShader,nullptr,0);
+	context->PSSetShader(pixelShader,nullptr,0);
+
+	//드로우콜
+	context->DrawIndexed(3,0,0);
 
 	//버퍼교환 -모니터 싱글
 
