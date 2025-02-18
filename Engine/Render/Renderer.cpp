@@ -4,6 +4,7 @@
 #include"../Math/Vector3.h"
 #include "../Shader/Shader.h"
 #include "TriangleMesh.h"
+#include "QuadMesh.h"
 
 namespace 	Blue
 {
@@ -100,6 +101,10 @@ void Renderer::Draw()
 	{
 		mesh = std::make_unique<TriangleMesh>();
 	}
+	if(mesh_quad == nullptr)
+	{
+		mesh_quad = std::make_unique<QuadMesh>();
+	}
 
 	//그리기 전 작업
 	// 	   # 지우기
@@ -109,6 +114,7 @@ void Renderer::Draw()
 
 	//드로우
 	mesh->Draw();
+	mesh_quad->Draw();
 
 	//버퍼교환 -모니터 싱글 (EndScene/ Present)
 	swapChain->Present(1u,0u);

@@ -34,6 +34,7 @@ private:
 	ID3D11Buffer* indexBuffer = nullptr;	//인덱스 버퍼 (정점 정보를 조립할 때, 정점의 순소를 전달)
 	//std::unique_ptr<class Shader> shader;	//쉐이더 객체 <- 요즘메터리얼
 	std::unique_ptr<class TriangleMesh> mesh;
+	std::unique_ptr<class QuadMesh> mesh_quad;
 
 	//ID3D11InputLayout* inputlayout = nullptr;	//입력레이아웃
 	//ID3D11VertexShader* verteShader = nullptr;	//쉐이더객체  -vertext
