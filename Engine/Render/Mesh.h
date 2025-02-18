@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include<vector>
+#include<memory>
 #include <d3d11.h>
 #include "Vertex.h"
 #include "../Core/Type.h"
@@ -28,5 +29,15 @@ struct  MeshData	//메쉬 데이터 구조체.
 	ID3D11Buffer* indexBuffer= nullptr;
 };
 class Mesh
-{};
+{
+public:
+	Mesh();
+	virtual ~Mesh() =default;
+
+	virtual void Draw();
+
+protected:
+	std::vector<std::shared_ptr<MeshData>> meshes;
+	std::vector<std::shared_ptr<class Shader>> shaders;
+};
 }

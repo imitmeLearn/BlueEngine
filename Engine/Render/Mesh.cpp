@@ -1,5 +1,6 @@
 ﻿#include "Mesh.h"
 #include "../Core/Engine.h"
+#include "../Shader/Shader.h"
 
 namespace Blue
 {
@@ -52,7 +53,7 @@ MeshData::MeshData(
 	D3D11_SUBRESOURCE_DATA indexData = {};	//정점 데이터 //여러데이터, 하나로 넣을 떄 사용
 	indexData.pSysMem =	indices.data();
 
-	auto	result=	device.CreateBuffer(&indexBufferDesc,&indexData,&indexBuffer);	//버퍼(Buffer) 메모리 덩어리  - 인덱스
+	result=	device.CreateBuffer(&indexBufferDesc,&indexData,&indexBuffer);	//버퍼(Buffer) 메모리 덩어리  - 인덱스
 	if(FAILED(result))	//결과 확인
 	{
 		MessageBoxA(nullptr,"fail to CreateBuffer -index ","ERROR",MB_OK);
@@ -60,5 +61,28 @@ MeshData::MeshData(
 	}
 }
 void MeshData::Bind()
+{
+	//컨텍스트 얻어오기
+	static ID3D11DeviceContext& context = Engine::Get().Context();
+
+	//정점/ 인덱스 버퍼 바인딩.
+	static uint32 offset = 0;
+	context.IASetVertexBuffers(0,1,&vertexBuffer,&stride,&offset);
+	context.IASetIndexBuffer(indexBuffer,DXGI_FORMAT_R32_UINT,0);
+}
+Mesh::Mesh()
 {}
+void Mesh::Draw()
+{
+	//컨텍스트 얻어오기.
+	ID3D11DeviceContext& context = Engine::Get().Context();
+
+	//루프 순회하면서, 바인딩 & 드로우.
+	for(int ix = 0; ix < (int32)meshes.size(); ix++)
+	{
+		meshes[ix]->Bind();
+		shaders[ix]->Bind();
+		context.DrawIndexed(meshes[ix]->IndexCount(),0,0);
+	}
+}
 }
