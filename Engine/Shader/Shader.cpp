@@ -80,11 +80,13 @@ Shader::Shader(const std::wstring& name)
 	{
 		{"POSITION",0,DXGI_FORMAT_R32G32B32_FLOAT, /*별도로 쓰는게 없어서*/0, /*하나밖에없어서*/0
 		,D3D11_INPUT_PER_VERTEX_DATA,0}
+		//,{"COLOR",0,DXGI_FORMAT_R32G32B32_FLOAT /*4+4+4*/,0,12,D3D11_INPUT_PER_VERTEX_DATA,0} //4+4+4=12
+		,{"COLOR",0,DXGI_FORMAT_R32G32B32_FLOAT /*4+4+4*/,0,D3D11_APPEND_ALIGNED_ELEMENT,D3D11_INPUT_PER_VERTEX_DATA,0} //위랑 같은 결과!
 	};
 
 	result = device.CreateInputLayout(
 		inputDesc
-		,1
+		,_countof(inputDesc)
 		,vertexShaderBuffer->GetBufferPointer()
 		,vertexShaderBuffer->GetBufferSize()
 		,&inputlayout

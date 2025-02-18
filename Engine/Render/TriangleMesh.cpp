@@ -8,9 +8,9 @@ TriangleMesh::TriangleMesh()
 {
 	std::vector<Vertex> vertices = //정점 배열
 	{
-		Vertex(Vector3(0.f,0.5f,0.5f))
-		,Vertex(Vector3(0.5f,-0.5f,0.5f))
-		,Vertex(Vector3(-0.5f,-0.5f,0.5f)),
+		Vertex(Vector3(0.f,0.5f,0.5f),Vector3(1.f,0.f,0.f))
+		,Vertex(Vector3(0.5f,-0.5f,0.5f),Vector3(0.f,1.f,0.f))
+		,Vertex(Vector3(-0.5f,-0.5f,0.5f),Vector3(0.f,0.f,1.f)),
 	};
 
 	std::vector<uint32> indices =	//인덱스 배열
