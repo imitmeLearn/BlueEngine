@@ -3,6 +3,7 @@
 #include <d3dcompiler.h>
 #include"../Math/Vector3.h"
 #include "../Shader/Shader.h"
+#include "TriangleMesh.h"
 
 namespace 	Blue
 {
@@ -89,26 +90,15 @@ Renderer::Renderer(uint32 width,uint32 height,HWND window)
 
 	//퓨 포트 설정
 	context -> RSSetViewports(1,&viewport);
-
-	//정점 데이터 생성
-	Vector3 vertices[] =
-	{
-		//화면 기본 좌표,
-		Vector3(0.f,0.5f,0.5f)
-		,Vector3(0.5f,-0.5f,0.5f)
-		,Vector3(-0.5f,-0.5f,0.5f)
-	};
-
-	//각 리소스 바인딩.
 }
 Renderer::~Renderer()
 {}
 void Renderer::Draw()
 {
-	//쉐이더 객체 생성
-	if(shader == nullptr)
+	//쉐이더 객체 생성 - @임시/ㅆㄷㄴㅅ
+	if(mesh == nullptr)
 	{
-		shader = std::make_unique<Shader>();
+		mesh = std::make_unique<TriangleMesh>();
 	}
 
 	//그리기 전 작업
@@ -116,24 +106,11 @@ void Renderer::Draw()
 	//float color[] = {.6f,.7f,.8f,1.f};
 	float color[] = {.7f,.8f,.95f,1.f};
 	context->ClearRenderTargetView(renderTargetView,color);
+
 	//드로우
+	mesh->Draw();
 
-	//리소스 바인딩. //정점쉐이더가 실행되기 전 단계
-	//정점 버퍼 전달
-	static unsigned int stride = Vector3::Stride();
-	static unsigned int offset = 0;
-	context -> IASetVertexBuffers(0,1,&vertexBuffer,/*요소하나의 크기 얼마냐*/&stride,&offset);
-
-	//인덱스 버퍼 전달
-	context ->IASetIndexBuffer(indexBuffer, /*d인덱스 요소 하나의 크기는 얼마냐 - wjscp */ DXGI_FORMAT_R32_UINT,0);
-
-	shader->Bind();
-
-	//드로우콜
-	context->DrawIndexed(3,0,0);
-
-	//버퍼교환 -모니터 싱글
-
+	//버퍼교환 -모니터 싱글 (EndScene/ Present)
 	swapChain->Present(1u,0u);
 }
 }
