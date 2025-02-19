@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "../Math//Vector3.h"
+#include "Math//Vector2.h"	//c++ >일반 > 추가포함디렉터리 : $(ProjectDir)\; 작성해 넣어서, ../ 안써도 됨.
 namespace Blue
 {
 class Vertex
