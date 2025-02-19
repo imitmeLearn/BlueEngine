@@ -1,5 +1,6 @@
 ﻿#include "QuadMesh.h"
 #include "Shader/Shader.h"
+#include "Shader/TextureMappingShader.h"
 namespace Blue
 {
 QuadMesh::QuadMesh()
@@ -45,6 +46,7 @@ QuadMesh::QuadMesh()
 	};
 
 	meshes.emplace_back(std::make_shared<MeshData>(vertices,indices));
-	shaders.emplace_back(std::make_shared<Shader>());
+	//shaders.emplace_back(std::make_shared<Shader>());	//텍스처 추가했기에, 그대로 하면, 검정화면 나옴.
+	shaders.emplace_back(std::make_shared<TextureMappingShader>("T_coord.png"));
 }
 }

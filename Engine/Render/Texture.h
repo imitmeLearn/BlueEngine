@@ -42,13 +42,13 @@ public:
 	~Texture();
 	Texture(const std::string& name
 			,BindType bindType = BindType::PixelShader
-			,uint32 index = 0u);
+			,uint32 index = 0u);//텍스쳐 순번
 	void Bind();
 private:
 	void LoadTexture(const std::string& name);
 private:
 	std::string name;	//이미지 이름
-	uint32 index = 0;	//텍스처 순번
+	uint32 index = 0u;	//텍스처 순번
 	BindType bindType = BindType::PixelShader;	//바인딩 쉐이더 타입
 	std::unique_ptr<TextureData> textureData;	//텍스처 데이터
 };

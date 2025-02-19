@@ -113,8 +113,8 @@ void Renderer::Draw()
 	context->ClearRenderTargetView(renderTargetView,color);
 
 	//드로우
-	mesh->Draw();
 	mesh_quad->Draw();
+	mesh->Draw();
 
 	//버퍼교환 -모니터 싱글 (EndScene/ Present)
 	swapChain->Present(1u,0u);
