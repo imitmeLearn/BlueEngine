@@ -33,23 +33,18 @@ Shader::Shader(const std::wstring& name)
 {
 	//경로 추가
 	wchar_t path[256]={};
-	swprintf_s(path,256,L"HLSLShader/%sVertexShader.hlsl",name.c_str());
+	swprintf_s(path,256,L"../CompiledShader/%sVertexShader.cso",name.c_str());
 
-	//쉐이더 컴파일,
-	auto result = D3DCompileFromFile(
-		//TEXT("../Shader/VertexShader.hlsl"),nullptr,nullptr,"main","vs_5_0",0,0	//안돼
-		//TEXT("Shader/VertexShader.hlsl")
-		path
-		  ,nullptr,nullptr,"main","vs_5_0",0,0
-			  ,&vertexShaderBuffer /*컴파일한 결과 obj 나오면, 임시로 저장하고 이를 기준으로 쉐이더 생성하니까.*/
-			  ,nullptr);
-	if(FAILED(result))	//결과 확인
-	{
-		MessageBoxA(nullptr,"fail to D3DCompileFromFile -vertex shader ","ERROR",MB_OK);
-		__debugbreak();
-	}
 	//장치 객체 생성
 	ID3D11Device& device = Engine::Get().Device();
+
+	//CSO 로드
+	auto result = D3DReadFileToBlob(path,&vertexShaderBuffer);
+	if(FAILED(result))	//결과 확인
+	{
+		MessageBoxA(nullptr,"fail to read  D3DReadFileToBlob - vertexShaderBuffer ","ERROR",MB_OK);
+		__debugbreak();
+	}
 
 	//쉐이더 생성/
 	result=	device.CreateVertexShader(vertexShaderBuffer->GetBufferPointer()
@@ -81,8 +76,10 @@ Shader::Shader(const std::wstring& name)
 		{"POSITION",0,DXGI_FORMAT_R32G32B32_FLOAT, /*별도로 쓰는게 없어서*/0, /*하나밖에없어서*/0
 		,D3D11_INPUT_PER_VERTEX_DATA,0}
 		//,{"COLOR",0,DXGI_FORMAT_R32G32B32_FLOAT /*4+4+4*/,0,12,D3D11_INPUT_PER_VERTEX_DATA,0} //4+4+4=12
-		,{"COLOR",0,DXGI_FORMAT_R32G32B32_FLOAT /*4+4+4*/,0,D3D11_APPEND_ALIGNED_ELEMENT /*12*/,D3D11_INPUT_PER_VERTEX_DATA,0} //위랑 같은 결과!
-		,{"TEXCOORD",0,DXGI_FORMAT_R32G32_FLOAT,0,24 /*D3D11_APPEND_ALIGNED_ELEMENT*/,D3D11_INPUT_PER_VERTEX_DATA,0} //위랑 같은 결과!
+		//,{"COLOR",0,DXGI_FORMAT_R32G32B32_FLOAT /*4+4+4*/,0,D3D11_APPEND_ALIGNED_ELEMENT /*12*/,D3D11_INPUT_PER_VERTEX_DATA,0} //위랑 같은 결과!
+		//,{"TEXCOORD",0,DXGI_FORMAT_R32G32_FLOAT,0,24 /*D3D11_APPEND_ALIGNED_ELEMENT*/,D3D11_INPUT_PER_VERTEX_DATA,0} //위랑 같은 결과!
+		,{"COLOR",0,DXGI_FORMAT_R32G32B32_FLOAT,0,12,D3D11_INPUT_PER_VERTEX_DATA,0} //위랑 같은 결과!
+		,{"TEXCOORD",0,DXGI_FORMAT_R32G32_FLOAT,0,24,D3D11_INPUT_PER_VERTEX_DATA,0} //위랑 같은 결과!
 	};
 
 	result = device.CreateInputLayout(
@@ -98,19 +95,12 @@ Shader::Shader(const std::wstring& name)
 		__debugbreak();
 	}
 
-	swprintf_s(path,256,L"HLSLShader/%sPixelShader.hlsl",name.c_str());
-
-	//픽셀 쉐이더 컴파일/생성.////
-	result = D3DCompileFromFile(
-	//TEXT("../Shader/PixelShader.hlsl"),nullptr,nullptr,"main","vs_5_0",0,0	//안돼
-	//TEXT("Shader/PixelShader.hlsl")
-		path
-		,nullptr,nullptr,"main","ps_5_0",0,0
-		,&pixelShaderBuffer /*컴파일한 결과 obj 나오면, 임시로 저장하고 이를 기준으로 쉐이더 생성하니까.*/
-		,nullptr);
+	//CSO 로드
+	swprintf_s(path,256,L"../CompiledShader/%sPixelShader.cso",name.c_str());
+	result = D3DReadFileToBlob(path,&pixelShaderBuffer);
 	if(FAILED(result))	//결과 확인
 	{
-		MessageBoxA(nullptr,"fail to D3DCompileFromFile -pixel shader ","ERROR",MB_OK);
+		MessageBoxA(nullptr,"fail to  D3DReadFileToBlob - pixelShaderBuffer ","ERROR",MB_OK);
 		__debugbreak();
 	}
 
