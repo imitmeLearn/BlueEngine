@@ -1,7 +1,7 @@
 ﻿#include "Matrix4.h"
 #include <cmath>
 
-#include "DirectXMath.h"
+//#include "DirectXMathMatrix.h"
 namespace Blue
 {
 Matrix4 Matrix4::Identity = Matrix4();
@@ -70,6 +70,25 @@ Matrix4 Matrix4::RotationZ(float angle)		//세번째 요소 안쓴다.
 
 	return Matrix4();
 }
+Matrix4 Matrix4::Scale(const Vector3 & scale)
+{
+	return Scale(scale.x,scale.y,scale.z);
+}
+Matrix4 Matrix4::Scale(float scale)
+{
+	return Scale(scale,scale,scale);
+}
+Matrix4 Matrix4::Scale(float x,float y,float z)
+{
+	Matrix4 m;
+	//행렬
+	m.m00 = x;				m.m01 = 0.f;			m.m02 = 0.f;			m.m03 = 0.f;
+	m.m10 = 0.f;			m.m11 = y;				m.m12 = 0.f;			m.m13 = 0.f;
+	m.m20 = 0.f;			m.m21 = 0.f;			m.m22 = z;				m.m23 = 0.f;
+	m.m30 = 0.f;			m.m31 = 0.f;			m.m32 = 0.f;			m.m33 = 1.f;
+	return m;
+}
+
 Matrix4& Matrix4::operator=(const Matrix4& other)
 {
 	//Matrix4 m;	//반환을 위한 행렬 변수 선언(단위 행렬).
