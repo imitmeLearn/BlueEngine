@@ -5,6 +5,7 @@
 #include "../Shader/Shader.h"
 #include "TriangleMesh.h"
 #include "QuadMesh.h"
+#include <Core\Common.h>
 
 namespace 	Blue
 {
@@ -48,21 +49,14 @@ Renderer::Renderer(uint32 width,uint32 height,HWND window)
 	//D3D_FEATURE_LEVEL targetLevel;
 
 	//장치 생성
-	HRESULT result = D3D11CreateDeviceAndSwapChain(nullptr,D3D_DRIVER_TYPE_HARDWARE,nullptr
+	ThrowIfFailed(D3D11CreateDeviceAndSwapChain(nullptr,D3D_DRIVER_TYPE_HARDWARE,nullptr
 		,flag,featureLevels,_countof(featureLevels),D3D11_SDK_VERSION,&swapChainDesc
-		,&swapChain,&device,nullptr/*targetLevel*/,&context);
-
-	//결과 확인
-	if(FAILED(result))
-	{
-		MessageBoxA(nullptr,"fail to D3D11CreateDeviceAndSwapChain ","ERROR",MB_OK);
-		__debugbreak();
-	}
+		,&swapChain,&device,nullptr/*targetLevel*/,&context),TEXT("fail to D3D11CreateDeviceAndSwapChain"));
 
 	//이미지 그리는 대상 (=렌더타겟) 뷰 생성 : 크기는 창 크기와 같아야 한다.
 	ID3D11Texture2D* backbuffer = nullptr; //받아올려고, 포인터타입으로...
 
-	result =swapChain -> GetBuffer(0,IID_PPV_ARGS(&backbuffer));	//ㄴ 메크로! <- //swapChain -> GetBuffer(0,__uuidof(backbuffer),reinterpret_cast<void**> (&backbuffer));
+	auto result =swapChain -> GetBuffer(0,IID_PPV_ARGS(&backbuffer));	//ㄴ 메크로! <- //swapChain -> GetBuffer(0,__uuidof(backbuffer),reinterpret_cast<void**> (&backbuffer));
 
 	if(FAILED(result))//결과 확인
 	{

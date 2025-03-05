@@ -50,9 +50,13 @@ using namespace Blue;
 
 #include <iostream>
 #include "Math/Vector2.h"
+#include <Core\Common.h>
 
 int main()
 {
+	//매크로 되는지 테스트
+	//ThrowIfFailed(E_FAIL,TEXT("Text Error"));
+
 	//std::cout<< "테스트 - 디버깅 가능해" <<"\n";
 	Engine engine (1280,800,TEXT("Engine DEMO"),GetModuleHandle(nullptr));
 	engine.Run();
