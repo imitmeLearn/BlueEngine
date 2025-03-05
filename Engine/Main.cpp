@@ -51,15 +51,36 @@ using namespace Blue;
 #include <iostream>
 #include "Math/Vector2.h"
 #include <Core\Common.h>
+#include<typeinfo>
+#include <Shader\Shader.h>
+#include <Shader\TextureMappingShader.h>
 
+template<typename T,typename std::enable_if<std::is_base_of<Shader,T>:: value>::type* = nullptr>
+void TestClass(){
+	std::boolalpha(std::cout);	//함수찍거나, 클래스, 찍는 트리.
+	std::cout<<	typeid(T).name() << "\n";
+	//std::cout<<	typeid(Blue::Engine).name() << "\n";
+	std::cout<<	std::is_base_of<Shader,T>::value << "\n";
+	//std::cout<<	std::is_base_of<Shader,TextureMappingShader>::value << "\n";
+	//std::cout<<	std::is_base_of<Shader,Engine>::value << "\n";
+}
 int main()
 {
+	//TestClass<TextureMappingShader>();
+	//TestClass<Engine>();	//템플릿 인스턴스 없어서, 빨간줄...억지로 만들려고 함녀 문제되는...//타입잘못지정하면, 에러나니, 인지할 수 있음
+
+	std::boolalpha(std::cout);	//함수찍거나, 클래스, 찍는 트리.
+	std::cout<<	typeid(Engine).name() << "\n";
+	std::cout<<	typeid(Blue::Engine).name() << "\n";
+	std::cout<<	std::is_base_of<Shader,TextureMappingShader>::value << "\n";
+	std::cout<<	std::is_base_of<Shader,Engine>::value << "\n";
+
 	//매크로 되는지 테스트
 	//ThrowIfFailed(E_FAIL,TEXT("Text Error"));
 
 	//std::cout<< "테스트 - 디버깅 가능해" <<"\n";
-	Engine engine (1280,800,TEXT("Engine DEMO"),GetModuleHandle(nullptr));
-	engine.Run();
+	//Engine engine (1280,800,TEXT("Engine DEMO"),GetModuleHandle(nullptr));
+	//engine.Run();
 
 	//std::cout<< "Vector2 테스트" <<"\n";	//콘솔창에!
 	//OutputDebugStringA("테스트!!!!!!!!!!!\n"); //출력창에!
