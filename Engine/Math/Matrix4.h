@@ -15,12 +15,18 @@ public:
 	{
 		return sizeof(Matrix4);
 	}
+	//이동 변환 행렬 (T)
+	static Matrix4 Translation(const Vector3& position);
+	static Matrix4 Translation(float x,float y,float z);
+
+	//회전 변환 행렬 (R)
 	static Matrix4 Rotation(const Vector3& rotation);
 	static Matrix4 Rotation(float x,float y,float z);
 	static Matrix4 RotationX(float angle);
 	static Matrix4 RotationY(float angle);
 	static Matrix4 RotationZ(float angle);
 
+	//크기 변환 행렬 (S)
 	static Matrix4 Scale(const Vector3& scale);
 	static Matrix4 Scale(float scale);
 	static Matrix4 Scale(float x,float y,float z);
