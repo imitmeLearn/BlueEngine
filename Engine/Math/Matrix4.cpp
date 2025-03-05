@@ -103,6 +103,22 @@ Matrix4 Matrix4::Scale(float x,float y,float z)
 	return m;
 }
 
+Matrix4 Matrix4::Transpose(const Matrix4 & target)
+{
+	Matrix4  m = target;
+
+	std::swap(m.m01,m.m10);
+	std::swap(m.m02,m.m20);
+	std::swap(m.m03,m.m30);
+
+	std::swap(m.m12,m.m21);
+	std::swap(m.m13,m.m31);
+
+	std::swap(m.m23,m.m32);
+
+	return m;
+}
+
 Matrix4& Matrix4::operator=(const Matrix4& other)
 {
 	//Matrix4 m;	//반환을 위한 행렬 변수 선언(단위 행렬).

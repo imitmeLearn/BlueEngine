@@ -31,6 +31,9 @@ public:
 	static Matrix4 Scale(float scale);
 	static Matrix4 Scale(float x,float y,float z);
 
+	//전치 행렬 //앞이랑 뒤 같은면 바꾼다? //직교인 경우, 역행렬과 같다.기저베터들은 직교니, 전치행렬 바꾸면, 역행렬이 돼,카메라 행렬만들때, 반대 변환 행렬을 만들어, DX 는 행기준(또는 우선) 행렬,
+	static Matrix4 Transpose(const Matrix4& target);
+
 	//operator overloading
 	Matrix4& operator= (const Matrix4& other);
 	Matrix4& operator*(const Matrix4& other);
