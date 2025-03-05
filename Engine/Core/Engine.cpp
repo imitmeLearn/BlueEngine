@@ -9,6 +9,7 @@ Engine::Engine(uint32 width,uint32 height,const std::wstring& title,HINSTANCE hI
 {
 	instance = this;	//싱글톤 객체 값 설정.
 	window = std::make_shared<Window>(width,height,title,hInstance,WindowProc);	//창 객체 생성
+	shaderLoader = std::make_unique<ShaderLoader>();		//셰이더 로더 객체 생성
 	renderer= std::make_shared<Renderer>(width,height,window->Handle());	//렌더 객체 생성
 }
 Engine::~Engine()

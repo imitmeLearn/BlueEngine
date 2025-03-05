@@ -79,8 +79,8 @@ int main()
 	//ThrowIfFailed(E_FAIL,TEXT("Text Error"));
 
 	//std::cout<< "테스트 - 디버깅 가능해" <<"\n";
-	//Engine engine (1280,800,TEXT("Engine DEMO"),GetModuleHandle(nullptr));
-	//engine.Run();
+	Engine engine (1280,800,TEXT("Engine DEMO"),GetModuleHandle(nullptr));
+	engine.Run();
 
 	//std::cout<< "Vector2 테스트" <<"\n";	//콘솔창에!
 	//OutputDebugStringA("테스트!!!!!!!!!!!\n"); //출력창에!
