@@ -103,6 +103,8 @@ void Renderer::Draw()
 	}
 
 	//그리기 전 작업
+	context->OMSetRenderTargets(1,&renderTargetView,nullptr);//초기화 전에 바인딩하고,
+
 	// 	   # 지우기
 	//float color[] = {.6f,.7f,.8f,1.f};
 	float color[] = {.7f,.8f,.95f,1.f};
