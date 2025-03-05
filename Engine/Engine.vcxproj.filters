@@ -95,9 +95,14 @@
     <ClInclude Include="Shader\TextureMappingShader.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Common.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="HLSLShader\DefaultVertexShader.hlsl" />
     <FxCompile Include="HLSLShader\DefaultPixelShader.hlsl" />
+    <FxCompile Include="HLSLShader\TextureMappingPixelShader.hlsl" />
+    <FxCompile Include="HLSLShader\TextureMappingVertexShader.hlsl" />
   </ItemGroup>
 </Project>

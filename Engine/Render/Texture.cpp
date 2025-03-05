@@ -122,6 +122,7 @@ void Texture::LoadTexture(const std::string& name)
 	sampleDesc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
 	sampleDesc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
 	sampleDesc.MaxLOD = FLT_MAX;
+	//sampleDesc.MinLOD = FLT_MAX;
 	//sampleDesc.MinLOD =	FLT_MIN;
 	sampleDesc.MinLOD = -FLT_MAX;
 	sampleDesc.MaxAnisotropy = 3;
