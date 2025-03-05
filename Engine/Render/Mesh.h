@@ -20,6 +20,8 @@ struct  MeshData	//메쉬 데이터 구조체.
 	{
 		return (uint32)indices.size();
 	}
+	//정점데이터 업데이트 하는 함수
+	void UpdateVertexBuffer(const std::vector<Vertex>& vertices);
 
 	std::vector<Vertex> vertices;	//정점데이터
 	uint32 stride = 0;

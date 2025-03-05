@@ -110,6 +110,10 @@ void Renderer::Draw()
 	float color[] = {.7f,.8f,.95f,1.f};
 	context->ClearRenderTargetView(renderTargetView,color);
 
+	//@test.//메쉬 드로우 전에,
+	mesh_quad->Update(1.f/60.f);
+	//mesh->Update(1.f/60.f);	//쉐이더 로더 해결!
+
 	//드로우
 	mesh_quad->Draw();
 	//mesh->Draw();	//쉐이더 로더 해결!

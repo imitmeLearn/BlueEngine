@@ -51,7 +51,7 @@ Matrix4 Matrix4::RotationX(float angle)
 	m.m20 = 0.f;			m.m21 = -sinAngle;		m.m22 = cosAngle;		m.m23 = 0.f;
 	m.m30 = 0.f;			m.m31 = 0.f;			m.m32 = 0.f;			m.m33 = 1.f;
 
-	return Matrix4();
+	return m;
 }
 
 Matrix4 Matrix4::RotationY(float angle)	//두번째 요소를 안쓴다.
@@ -67,7 +67,7 @@ Matrix4 Matrix4::RotationY(float angle)	//두번째 요소를 안쓴다.
 	m.m20 = sinAngle;		m.m21 = 0.f;			m.m22 = cosAngle;		m.m23 = 0.f;
 	m.m30 = 0.f;			m.m31 = 0.f;			m.m32 = 0.f;			m.m33 = 1.f;
 
-	return Matrix4();
+	return m;
 }
 Matrix4 Matrix4::RotationZ(float angle)		//세번째 요소 안쓴다.
 {
@@ -79,10 +79,9 @@ Matrix4 Matrix4::RotationZ(float angle)		//세번째 요소 안쓴다.
 	//행렬
 	m.m00 = cosAngle;		m.m01 = sinAngle;		m.m02 = 0.f;			m.m03 = 0.f;
 	m.m10 = -sinAngle;		m.m11 = cosAngle;		m.m12 = 0.f;			m.m13 = 0.f;
-	m.m20 = 0.f;			m.m21 = 0.f;			m.m22 = 1.f;			m.m23 = 0.f;
-	m.m30 = 0.f;			m.m31 = 0.f;			m.m32 = 0.f;			m.m33 = 1.f;
+	m.m20 = 0.f;			m.m21 = 0.f;			m.m32 = 0.f;			m.m33 = 1.f;
 
-	return Matrix4();
+	return m;
 }
 Matrix4 Matrix4::Scale(const Vector3 & scale)
 {
