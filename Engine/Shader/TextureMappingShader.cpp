@@ -8,19 +8,21 @@ TextureMappingShader::TextureMappingShader()
 TextureMappingShader::TextureMappingShader(const std::string & textureName)
 	:Shader(L"TextureMapping")
 {
-	texture = std::make_unique<Texture>(textureName);	//텍스쳐 생성
+	//texture = std::make_unique<Texture>(textureName);	//텍스쳐 생성
+	TextureLoader::Get().Load(textureName,texture);
 }
 TextureMappingShader::TextureMappingShader(const std::wstring & name,const std::string & textureName)
 	:Shader(name)
 {
-	texture = std::make_unique<Texture>(textureName);	//텍스쳐 생성
+	//	texture = std::make_unique<Texture>(textureName);	//텍스쳐 생성
+	TextureLoader::Get().Load(textureName,texture);
 }
 void TextureMappingShader::Bind()
 {
 	Shader::Bind();
-	if(texture)
+	if(texture.lock())
 	{
-		texture ->Bind();
+		texture.lock() ->Bind();
 	}
 }
 }
