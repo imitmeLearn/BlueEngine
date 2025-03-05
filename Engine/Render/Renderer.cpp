@@ -38,15 +38,15 @@ Renderer::Renderer(uint32 width,uint32 height,HWND window)
 	swapChainDesc.Windowed = true;				//창모드?
 	swapChainDesc.OutputWindow = window;
 	swapChainDesc.BufferUsage= DXGI_USAGE_RENDER_TARGET_OUTPUT;	//사용목적 지정
-	swapChainDesc.BufferCount =1;			//백버퍼 개수.
+	swapChainDesc.BufferCount =2;			//백버퍼 개수.DXGI_SWAP_EFFECT_FLIP_DISCARD 사용시, 2로 변경되어야 함.
 	swapChainDesc.SampleDesc.Count =1;		//멀티 샘플링 개수.	//1개한다는건, 안쓰겠다는 거임
 	swapChainDesc.SampleDesc.Quality=0;		//멀티 샘플링 수준.
 	swapChainDesc.BufferDesc.Width = width;
 	swapChainDesc.BufferDesc.Height = height;
 	swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;	//RGB unNormal?
-	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;	//0,1 주로 사용한다 하드웨어 빨라서, 1해도 잘 나온데, 예전엔 잔상남았엇따?
+	//swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;	//0,1 주로 사용한다 하드웨어 빨라서, 1해도 잘 나온데, 예전엔 잔상남았엇따?
 	//swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;	//DXGI_SWAP_EFFECT_DISCARD legacy 오류나서 변경
-	//swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;	//DXGI_SWAP_EFFECT_DISCARD legacy 오류나서 변경
+	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;	//DXGI_SWAP_EFFECT_DISCARD legacy 오류나서 변경
 
 	//D3D_FEATURE_LEVEL targetLevel;
 
@@ -103,6 +103,7 @@ void Renderer::Draw()
 	}
 
 	//그리기 전 작업
+
 	// 	   # 지우기
 	//float color[] = {.6f,.7f,.8f,1.f};
 	float color[] = {.7f,.8f,.95f,1.f};
@@ -110,7 +111,7 @@ void Renderer::Draw()
 
 	//드로우
 	mesh_quad->Draw();
-	mesh->Draw();
+	//mesh->Draw();
 
 	//버퍼교환 -모니터 싱글 (EndScene/ Present)
 	swapChain->Present(1u,0u);
