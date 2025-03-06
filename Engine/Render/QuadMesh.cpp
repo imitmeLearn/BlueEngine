@@ -50,10 +50,10 @@ QuadMesh::QuadMesh()
 	};
 
 	//변환 -크기
-	vertices[0].position = vertices[0].position * Matrix4::Scale(0.5f);
-	vertices[1].position = vertices[1].position * Matrix4::Scale(0.5f);
-	vertices[2].position = vertices[2].position * Matrix4::Scale(0.5f);
-	vertices[3].position = vertices[3].position * Matrix4::Scale(0.5f);
+	//vertices[0].position = vertices[0].position * Matrix4::Scale(0.5f);
+	//vertices[1].position = vertices[1].position * Matrix4::Scale(0.5f);
+	//vertices[2].position = vertices[2].position * Matrix4::Scale(0.5f);
+	//vertices[3].position = vertices[3].position * Matrix4::Scale(0.5f);
 
 	//변환 - 이동
 	vertices[0].position = vertices[0].position * Matrix4::Translation(0.5f,0.f,0.f);

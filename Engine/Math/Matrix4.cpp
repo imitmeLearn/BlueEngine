@@ -155,12 +155,13 @@ Matrix4 & Matrix4::operator*=(const Matrix4& other)
 	*this = *this * other;
 	return *this;
 }
+//4번째 차수가 있다 == 이동, 스케일,회전은 값이 이미 0이기에, 영향을 안받고, 위치는 뒤가 1이기에, 해당 +1.f* matrix.m3* 부분이 계산된다. (곱셈의 항등원)-이동변환하려면, const Matrix4 & matrix 차수 맞춰서,더해주면, 된다.
 Vector3 operator*(const Vector3 & vector,const Matrix4 & matrix)
 {
 	Vector3 result;
-	result.x = vector.x * matrix.m00		+ vector.y * matrix.m10			+ vector.z * matrix.m20;
-	result.y = vector.x * matrix.m01		+ vector.y * matrix.m11			+ vector.z * matrix.m21;
-	result.z = vector.x * matrix.m02		+ vector.y * matrix.m12			+ vector.z * matrix.m22;
+	result.x = vector.x * matrix.m00		+ vector.y * matrix.m10			+ vector.z * matrix.m20		+1.f* matrix.m30;
+	result.y = vector.x * matrix.m01		+ vector.y * matrix.m11			+ vector.z * matrix.m21		+1.f* matrix.m31;
+	result.z = vector.x * matrix.m02		+ vector.y * matrix.m12			+ vector.z * matrix.m22		+1.f* matrix.m32;
 	return result;
 }
 Vector3 operator*(const Matrix4 & matrix,const Vector3 & vector)
