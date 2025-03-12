@@ -19,6 +19,8 @@ Transform::Transform()
 	D3D11_BUFFER_DESC bufferDesc = {};
 	bufferDesc.ByteWidth = Matrix4::Stride();
 	bufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	bufferDesc.Usage = D3D11_USAGE_DYNAMIC;	//동시접속가능하게 하고,
+	bufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;	//cpu만 쓰기권한 줌
 
 	// 버퍼에 담을 데이터 설정.
 	D3D11_SUBRESOURCE_DATA bufferData = {};
@@ -53,7 +55,12 @@ void Transform::Bind()
 	transformMatrix =Matrix4::Transpose(transformMatrix);
 
 	//버퍼 업데이트
-	context. UpdateSubresource(constantBuffer,0,nullptr,&transformMatrix,0,0);
+	//context. UpdateSubresource(constantBuffer,0,nullptr,&transformMatrix,0,0);
+	//GPU 에게 전달할때! 락걸고 락 풀고! 를 해서, 업데이트 하고.
+	D3D11_MAPPED_SUBRESOURCE resources = {};
+	context.Map(constantBuffer,0,D3D11_MAP_WRITE_DISCARD,0,&resources);	//동시접속가능한기에, gpu 접근 하지 말라고, lock  거는 행위
+	memcpy(resources.pData,&transformMatrix,sizeof(Matrix4)); // resources.pData = &transformMatrix;	//메모리 복사
+	context.Unmap(constantBuffer,0);	//락 해제.
 
 	//버퍼 바인딩
 	context.VSSetConstantBuffers(0,1,&constantBuffer);
