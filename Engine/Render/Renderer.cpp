@@ -21,19 +21,42 @@ Renderer::Renderer(uint32 width,uint32 height,HWND window)
 		D3D_FEATURE_LEVEL_11_1		//얘 시도하고
 		,D3D_FEATURE_LEVEL_11_0		//안되면, 얘 시도하고 ...
 	};
-	//스왑 체인 정보 구조체
-	//typedef struct DXGI_SWAP_CHAIN_DESC
-	//{
-	//	DXGI_MODE_DESC BufferDesc;
-	//	DXGI_SAMPLE_DESC SampleDesc;
-	//	DXGI_USAGE BufferUsage;
-	//	UINT BufferCount;
-	//	HWND OutputWindow;
-	//	BOOL Windowed;
-	//	DXGI_SWAP_EFFECT SwapEffect;
-	//	UINT Flags;
-	//}
 
+	D3D_FEATURE_LEVEL outFeatureLevel;
+
+	//장치 생성.
+	ThrowIfFailed(D3D11CreateDevice(
+		nullptr //안만들어 없으니, null 해주면 된다.
+		,D3D_DRIVER_TYPE_HARDWARE	//장치만 쓰고싶은경우, 행들값
+		,nullptr
+		,flag	//flag 값
+		,featureLevels	//피쳐레벨 - 라이브러리 버전, 생성할
+		,_countof(featureLevels)	//배열 안 원소
+		,D3D11_SDK_VERSION	//매크로 써야 함.
+		,&device	//
+		,&outFeatureLevel//,nullptr	// 선택사항임, 위에서, 무슨 버전 써는지,출력해서 담음.
+		,&context
+	)
+		,TEXT("Failed to create device.")	 //ThrowIfFailed 매크로 만들었고, 2 번인자해당부분,
+	);
+
+	//IDXGIFactory 리소스 생성
+	IDXGIFactory* factory = nullptr;
+	CreateDXGIFactory(IID_PPV_ARGS(&factory));	//메크로 만들어 졌고,	//CreateDXGIFactory(__uuidof(factory),reinterpret_cast<void**>(&factory));
+
+	//스왑 체인 정보 구조체
+//typedef struct DXGI_SWAP_CHAIN_DESC
+//{
+//	DXGI_MODE_DESC BufferDesc;
+//	DXGI_SAMPLE_DESC SampleDesc;
+//	DXGI_USAGE BufferUsage;
+//	UINT BufferCount;
+//	HWND OutputWindow;
+//	BOOL Windowed;
+//	DXGI_SWAP_EFFECT SwapEffect;
+//	UINT Flags;
+//}
+	//스왑체인 정보 구조체
 	DXGI_SWAP_CHAIN_DESC swapChainDesc = {};	//주소값 보낼거야
 	swapChainDesc.Windowed = true;				//창모드?
 	swapChainDesc.OutputWindow = window;
@@ -50,34 +73,63 @@ Renderer::Renderer(uint32 width,uint32 height,HWND window)
 
 	//D3D_FEATURE_LEVEL targetLevel;
 
+	//위에서 만들어서 주석처리
 	//장치 생성
-	ThrowIfFailed(D3D11CreateDeviceAndSwapChain(nullptr,D3D_DRIVER_TYPE_HARDWARE,nullptr
-		,flag,featureLevels,_countof(featureLevels),D3D11_SDK_VERSION,&swapChainDesc
-		,&swapChain,&device,nullptr/*targetLevel*/,&context),TEXT("fail to D3D11CreateDeviceAndSwapChain"));
+	//ThrowIfFailed(D3D11CreateDeviceAndSwapChain(nullptr,D3D_DRIVER_TYPE_HARDWARE,nullptr
+	//	,flag,featureLevels,_countof(featureLevels),D3D11_SDK_VERSION,&swapChainDesc
+	//	,&swapChain,&device,nullptr/*targetLevel*/,&context),TEXT("fail to D3D11CreateDeviceAndSwapChain"));
+
+	//스왑체인 생성
+	ThrowIfFailed(
+		factory->CreateSwapChain(
+		device
+		,&swapChainDesc
+		,&swapChain
+	)
+		,TEXT("failed to create swap chain.")
+	);
 
 	//이미지 그리는 대상 (=렌더타겟) 뷰 생성 : 크기는 창 크기와 같아야 한다.
 	ID3D11Texture2D* backbuffer = nullptr; //받아올려고, 포인터타입으로...
 
-	auto result =swapChain -> GetBuffer(0,IID_PPV_ARGS(&backbuffer));	//ㄴ 메크로! <- //swapChain -> GetBuffer(0,__uuidof(backbuffer),reinterpret_cast<void**> (&backbuffer));
+	//대체
+	//auto result =swapChain -> GetBuffer(0,IID_PPV_ARGS(&backbuffer));	//ㄴ 메크로! <- //swapChain -> GetBuffer(0,__uuidof(backbuffer),reinterpret_cast<void**> (&backbuffer));
 
-	if(FAILED(result))//결과 확인
-	{
-		MessageBoxA(nullptr,"fail to get back buffer ","ERROR",MB_OK);
-		__debugbreak();
-	}
+	ThrowIfFailed(
+		swapChain -> GetBuffer(0,IID_PPV_ARGS(&backbuffer)
+	)
+		,TEXT("fail to get back buffer")
+	);
 
-	result=	device -> CreateRenderTargetView(backbuffer,nullptr,&renderTargetView);
+	//대체
+	//if(FAILED(result))//결과 확인
+	//{
+	//	MessageBoxA(nullptr,"fail to get back buffer ","ERROR",MB_OK);
+	//	__debugbreak();
+	//}
 
-	if(FAILED(result))	//결과 확인
-	{
-		MessageBoxA(nullptr,"fail to CreateRenderTargetView  ","ERROR",MB_OK);
-		__debugbreak();
-	}
+	ThrowIfFailed(
+		device -> CreateRenderTargetView(backbuffer,nullptr,&renderTargetView
+	)
+		,TEXT("fail to CreateRenderTargetView")
+	);
+
+	//대체
+	//result=	device -> CreateRenderTargetView(backbuffer,nullptr,&renderTargetView);
+
+	//대체
+	//if(FAILED(result))	//결과 확인
+	//{
+	//	MessageBoxA(nullptr,"fail to CreateRenderTargetView  ","ERROR",MB_OK);
+	//	__debugbreak();
+	//}
 
 	//렌더 타겟 뷰 바인딩(연결)
 	context -> OMSetRenderTargets(1,&renderTargetView,nullptr);
 
 	//뷰 포트(화면)
+	viewport.TopLeftX = (float)width/2;		//뷰포트 화면 설정하는 부분
+	viewport.TopLeftY = (float)height/2;	//뷰포트 화면 설정하는 부분
 	viewport.TopLeftX = 0.f;
 	viewport.TopLeftY = 0.f;
 	viewport.Width = (float)width;

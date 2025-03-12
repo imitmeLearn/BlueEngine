@@ -4,6 +4,8 @@
 #include <d3d11.h>
 #include "Vertex.h"
 #include "../Core/Type.h"
+
+#include"Math\Transform.h"
 namespace Blue
 {
 struct  MeshData	//메쉬 데이터 구조체.
@@ -37,6 +39,10 @@ public:
 	virtual ~Mesh() =default;
 
 	virtual void Draw();
+
+public:
+	//@Temp : 임시 트랜스폼
+	Transform transform;
 
 protected:
 	std::vector<std::shared_ptr<MeshData>> meshes;

@@ -56,10 +56,10 @@ QuadMesh::QuadMesh()
 	//vertices[3].position = vertices[3].position * Matrix4::Scale(0.5f);
 
 	//변환 - 이동
-	vertices[0].position = vertices[0].position * Matrix4::Translation(0.5f,0.f,0.f);
-	vertices[1].position = vertices[1].position * Matrix4::Translation(0.5f,0.f,0.f);
-	vertices[2].position = vertices[2].position * Matrix4::Translation(0.5f,0.f,0.f);
-	vertices[3].position = vertices[3].position * Matrix4::Translation(0.5f,0.f,0.f);
+	//vertices[0].position = vertices[0].position * Matrix4::Translation(0.5f,0.f,0.f);
+	//vertices[1].position = vertices[1].position * Matrix4::Translation(0.5f,0.f,0.f);
+	//vertices[2].position = vertices[2].position * Matrix4::Translation(0.5f,0.f,0.f);
+	//vertices[3].position = vertices[3].position * Matrix4::Translation(0.5f,0.f,0.f);
 
 	meshes.emplace_back(std::make_shared<MeshData>(vertices,indices));
 	//shaders.emplace_back(std::make_shared<Shader>());	//텍스처 추가했기에, 그대로 하면, 검정화면 나옴.
