@@ -46,7 +46,7 @@ void Transform::Bind()
 	//트랜스폼 행렬 계산 (SRT)
 	transformMatrix = Matrix4::Scale(scale)
 		*Matrix4::Rotation(rotation)
-		*Matrix4::Translation(rotation);
+		*Matrix4::Translation(position);
 
 	//전치 : 가로기준으로 만들었는,  변환을 위해.
 	// CPU GPU 행렬 다루는 방식이 달라서!

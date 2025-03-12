@@ -6,7 +6,7 @@ struct VertexInput
 };
 
 //ConstantBuffer
-cbuffer Transfrom: register(b0)
+cbuffer Transform: register(b0)
 {
 	matrix worldMatrix;
 };

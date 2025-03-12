@@ -76,7 +76,11 @@ void QuadMesh::Update(float deltaTime)
 	static float angle = 0.f;
 	angle += 60.f * deltaTime;
 
-	//Rotate(angle);
+	//회전 적용
+	//transform.rotation.z = angle;
+	//	transform.rotation.x = angle / 2.f;
+	//transform.scale.x = angle;
+	//transform.position.x = angle;
 }
 void QuadMesh::Rotate(float angle)
 {
