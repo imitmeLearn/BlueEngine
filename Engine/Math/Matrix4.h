@@ -36,8 +36,8 @@ public:
 
 	//operator overloading
 	Matrix4& operator= (const Matrix4& other);
-	Matrix4& operator*(const Matrix4& other);
-	Matrix4& operator*= (const Matrix4& other);
+	Matrix4 operator*(const Matrix4& other);
+	Matrix4 operator*= (const Matrix4& other);
 
 	friend Vector3 operator* (const Vector3& vector,const Matrix4& matrix);
 	friend Vector3 operator* (const Matrix4& matrix,const Vector3& vector);

@@ -124,7 +124,7 @@ Matrix4& Matrix4::operator=(const Matrix4& other)
 	memcpy(elements,other.elements,sizeof(float)*16);
 	return *this;
 }
-Matrix4& Matrix4::operator*(const Matrix4& other)
+Matrix4 Matrix4::operator*(const Matrix4& other)
 {
 	Matrix4 m;
 
@@ -150,7 +150,7 @@ Matrix4& Matrix4::operator*(const Matrix4& other)
 
 	return m;
 }
-Matrix4 & Matrix4::operator*=(const Matrix4& other)
+Matrix4  Matrix4::operator*=(const Matrix4& other)
 {
 	*this = *this * other;
 	return *this;
