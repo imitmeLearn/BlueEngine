@@ -184,7 +184,7 @@ void Renderer::Draw()
 	//드로우
 	mesh_quad->Draw();
 	mesh_quad2->Draw();
-	mesh2->Draw();	//쉐이더 로더 해결!
+	//mesh2->Draw();	//쉐이더 로더 해결!
 
 	//버퍼교환 -모니터 싱글 (EndScene/ Present)
 	swapChain->Present(1u,0u);

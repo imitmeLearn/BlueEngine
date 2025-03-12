@@ -2,6 +2,7 @@
 #include "Shader/Shader.h"
 #include "Shader/TextureMappingShader.h"
 #include "Resource\ShaderLoader.h"
+#include "Resource\ModelLoader.h"
 
 #include "Math\Matrix4.h"
 #include "Math\Vector3.h"
@@ -61,7 +62,15 @@ QuadMesh::QuadMesh()
 	//vertices[2].position = vertices[2].position * Matrix4::Translation(0.5f,0.f,0.f);
 	//vertices[3].position = vertices[3].position * Matrix4::Translation(0.5f,0.f,0.f);
 
-	meshes.emplace_back(std::make_shared<MeshData>(vertices,indices));
+//	meshes.emplace_back(std::make_shared<MeshData>(vertices,indices));
+
+// 모델로더
+	std::weak_ptr<MeshData> mesh;
+	if(ModelLoader::Get().Load("quad.obj",mesh))
+	{
+		meshes.emplace_back(mesh);
+	}
+
 	//shaders.emplace_back(std::make_shared<Shader>());	//텍스처 추가했기에, 그대로 하면, 검정화면 나옴.
 	//shaders.emplace_back(std::make_shared<TextureMappingShader>("T_coord.png"));
 	std::weak_ptr<TextureMappingShader> shader;
@@ -111,6 +120,6 @@ void QuadMesh::Rotate(float angle)
 	result[3].position = vertices[3].position * rotation;
 
 	//메시 정점 버퍼 업데이트,// 원점은 유지하고ㅡ 원래값에 회전행렬 곱하면, 실제 정점에 행렬곱하는것이다. 뭐가 회전에, 점이 회전함.
-	meshes[0]->UpdateVertexBuffer(result);
+	meshes[0].lock()->UpdateVertexBuffer(result);
 }
 }

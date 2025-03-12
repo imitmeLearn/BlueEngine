@@ -33,6 +33,7 @@ protected:
 	std::shared_ptr<class Renderer> renderer;	//렌더러 객체
 	std::unique_ptr<class ShaderLoader> shaderLoader;	//셰이더로더 객체
 	std::unique_ptr<class TextureLoader> textureLoader;	//텍스쳐로더 객체
+	std::unique_ptr<class ModelLoader> modelLoader;		//모델 로더 객체
 	static Engine* instance;					//싱글톤 객체
 
 private:

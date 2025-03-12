@@ -45,7 +45,7 @@ public:
 	Transform transform;
 
 protected:
-	std::vector<std::shared_ptr<MeshData>> meshes;
+	std::vector<std::weak_ptr<MeshData>> meshes;	//로더 만들었으니, 변경해주기 shared_ptr -> weak_ptr	//std::vector<std::shared_ptr<MeshData>> meshes;
 	//std::vector<std::shared_ptr<class Shader>> shaders;
 	std::vector<std::weak_ptr<class Shader>> shaders;
 };

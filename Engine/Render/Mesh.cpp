@@ -117,8 +117,19 @@ void Mesh::Draw()
 	//루프 순회하면서, 바인딩 & 드로우.
 	for(int ix = 0; ix < (int32)meshes.size(); ix++)
 	{
-		meshes[ix]->Bind();
-		shaders[ix].lock()->Bind();	//소유권이 없어서, 포인터를 읽어오는 함수 lock , - 없으면 null, 있으면, sharedptr 반환된다.
+		// 원래 리소스 가져오기.
+		auto mesh = meshes[ix].lock();
+		auto shader = shaders[ix].lock();
+
+		// 리소스에 문제가 없으면 그리기.
+		if(mesh && shader)
+		{
+			mesh->Bind();
+			shader->Bind();
+			context.DrawIndexed(mesh->IndexCount(),0,0);
+		}
+
+		//shaders[ix].lock()->Bind();	//소유권이 없어서, 포인터를 읽어오는 함수 lock , - 없으면 null, 있으면, sharedptr 반환된다.
 		//auto shader = shaders[ix].lock();
 		//if(!shader)
 		//{
@@ -127,8 +138,6 @@ void Mesh::Draw()
 		//  // 리소스 매니저가 나중에 죽으니, 쉐이더 없어지는 경우, 간혹 있는데, 곧이어서, DX 오류가 날것임.
 		//	//정상인데 lock 걸리면, 내 문제.
 		//}
-
-		context.DrawIndexed(meshes[ix]->IndexCount(),0,0);
 	}
 }
 }

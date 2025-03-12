@@ -5,6 +5,7 @@
 
 #include "Resource\ShaderLoader.h"
 #include "Resource\TextureLoader.h"
+#include "Resource\ModelLoader.h"
 
 namespace Blue
 {
@@ -15,6 +16,7 @@ Engine::Engine(uint32 width,uint32 height,const std::wstring& title,HINSTANCE hI
 	window = std::make_shared<Window>(width,height,title,hInstance,WindowProc);	//창 객체 생성
 	shaderLoader = std::make_unique<ShaderLoader>();		//셰이더 로더 객체 생성
 	textureLoader = std::make_unique<TextureLoader>();		//셰이더 로더 객체 생성
+	modelLoader = std::make_unique<ModelLoader>();			//모델 로더 객체 생성
 	renderer= std::make_shared<Renderer>(width,height,window->Handle());	//렌더 객체 생성
 }
 Engine::~Engine()
