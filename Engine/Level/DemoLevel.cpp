@@ -1,6 +1,8 @@
 ﻿#include "DemoLevel.h"
 
 #include "Actor\Actor.h"
+#include "Actor\QuadActor.h"
+
 #include "Render\QuadMesh.h"
 
 #include "Resource\ShaderLoader.h"
@@ -21,27 +23,9 @@ DemoLevel::DemoLevel()
 {
 	//데모 씬 구성
 
-	std::shared_ptr<Actor> actor = std::make_shared<Actor>();	//액터생성
+	std::shared_ptr<QuadActor> actor = std::make_shared<QuadActor>();	//액터생성
 	actor -> transform.position.x = 0.5f;
-	actor -> transform.scale.x = 0.5f;
-
-	std::shared_ptr<StaticMeshComponent> meshComponent//스태틱 메시 컴포넌트 생성
-		= std::make_shared<StaticMeshComponent>();
-	actor->AddComponent(meshComponent);		//엑터에 컴포넌트 추가
-
-	//컴포넌트 설정 (원)
-	std::shared_ptr<QuadMesh> quadMesh = std::make_shared<QuadMesh>();
-	meshComponent->SetMesh(quadMesh);
-
-	////컴포넌트 설정 (축약)
-	//meshComponent->SetMesh(std::make_shared<QuadMesh>());
-
-	////리소스 로드
-	std::weak_ptr<TextureMappingShader> shader;
-	if(ShaderLoader::Get().Load<TextureMappingShader>(shader,"T_coord.png"))
-	{
-		meshComponent-> AddShader(shader);
-	}
+	actor -> transform.scale = Vector3::One * 0.5f;
 
 	//엑터를 레벨에 추가
 	AddActor(actor);

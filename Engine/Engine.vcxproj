@@ -85,6 +85,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Actor\Actor.cpp" />
+    <ClCompile Include="Actor\QuadActor.cpp" />
     <ClCompile Include="Component\Component.cpp" />
     <ClCompile Include="Component\StaticMeshComponent.cpp" />
     <ClCompile Include="Core\Engine.cpp" />
@@ -110,6 +111,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor\Actor.h" />
+    <ClInclude Include="Actor\QuadActor.h" />
     <ClInclude Include="Component\Component.h" />
     <ClInclude Include="Component\StaticMeshComponent.h" />
     <ClInclude Include="Core\Common.h" />
