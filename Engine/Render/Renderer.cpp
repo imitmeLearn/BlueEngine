@@ -7,6 +7,7 @@
 #include "QuadMesh.h"
 #include <Core\Common.h>
 #include "Level/Level.h"
+#include "Actor\Actor.h"
 
 namespace 	Blue
 {
@@ -152,6 +153,17 @@ void Renderer::Draw(std::shared_ptr<class Level> level)
 	//float color[] = {.6f,.7f,.8f,1.f};
 	float color[] = {.7f,.8f,.95f,1.f};
 	context->ClearRenderTargetView(renderTargetView,color);
+
+	//Draw
+	for(uint32 ix = 0; ix <level->ActorCount(); ix++)
+	{
+		//액터 가져오기
+		auto actor = level->GetActor(ix);
+		if(actor->IsActive())
+		{
+			actor->Draw();
+		}	//Draw
+	}
 
 	//버퍼교환 -모니터 싱글 (EndScene/ Present)
 	swapChain->Present(1u,0u);

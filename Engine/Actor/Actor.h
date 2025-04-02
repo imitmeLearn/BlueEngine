@@ -25,7 +25,7 @@ private:
 protected:
 	std::wstring name = TEXT("Actor");	//액터 이름. 일반적으로 Hash 로 변환해서 사용함.
 	bool hasInitialized = false; //액터 초기화 여부.
-	bool isActive = false;		//활성화와 여부
+	bool isActive = true;		//활성화와 여부
 	bool hasDestroyed = false;	//삭제 여부
 	std::vector<std::shared_ptr<class Component>> components;	//컴포넌트 배열 //동적배열 - 필요에 따라 크기 늘려서, 추가 사용할 예정.
 };

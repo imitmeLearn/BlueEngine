@@ -4,6 +4,8 @@
 #include "render/renderer.h"
 #include "Core/Engine.h"
 
+#include "Level/DemoLevel.h"
+
 /*
 typedef LRESULT(CALLBACK* WNDPROC)(HWND, UINT, WPARAM, LPARAM);	//원본
 LRESULT CALLBACK WindowProc(HWND, UINT, WPARAM, LPARAM);	//가능//사용하는거
@@ -109,6 +111,8 @@ int main()
 
 //	std::cout<< "테스트 - 디버깅 가능해" <<"\n";
 	Engine engine (1280,800,TEXT("Engine DEMO"),GetModuleHandle(nullptr));
+
+	engine.SetLevel(std::make_shared<DemoLevel>());
 	engine.Run();
 
 	//std::cout<< "Vector2 테스트" <<"\n";	//콘솔창에!
