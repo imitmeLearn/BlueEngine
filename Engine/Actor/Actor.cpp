@@ -24,6 +24,9 @@ void Actor::Tick(float deltaTime)
 	{
 		return;
 	}	//예외처리
+
+	transform.Tick();
+
 	for(const auto& component : components)
 	{
 		component->Tick(deltaTime);

@@ -87,6 +87,9 @@
     <ClCompile Include="Actor\QuadActor.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Component\CameraComponent.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Window.h">
@@ -168,6 +171,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Actor\QuadActor.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\CameraComponent.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

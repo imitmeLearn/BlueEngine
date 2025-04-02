@@ -11,6 +11,7 @@ public:
 	Transform();
 	~Transform();
 	void Bind();
+	void Tick();
 public:
 	Vector3 position = Vector3::Zero;	//트랜스폼(변환) 요소 (TRS)
 	Vector3 rotation = Vector3::Zero;	//트랜스폼(변환) 요소 (TRS)

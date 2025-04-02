@@ -45,14 +45,6 @@ Transform::~Transform()
 void Transform::Bind()
 {
 	static ID3D11DeviceContext& context = Engine::Get().Context();
-	//트랜스폼 행렬 계산 (SRT)
-	transformMatrix = Matrix4::Scale(scale)
-		*Matrix4::Rotation(rotation)
-		*Matrix4::Translation(position);
-
-	//전치 : 가로기준으로 만들었는,  변환을 위해.
-	// CPU GPU 행렬 다루는 방식이 달라서!
-	transformMatrix =Matrix4::Transpose(transformMatrix);
 
 	//버퍼 업데이트
 	//context. UpdateSubresource(constantBuffer,0,nullptr,&transformMatrix,0,0);
@@ -64,5 +56,16 @@ void Transform::Bind()
 
 	//버퍼 바인딩
 	context.VSSetConstantBuffers(0,1,&constantBuffer);
+}
+void Transform::Tick()
+{
+	//트랜스폼 행렬 계산 (SRT)
+	transformMatrix = Matrix4::Scale(scale)
+		*Matrix4::Rotation(rotation)
+		*Matrix4::Translation(position);
+
+	//전치 : 가로기준으로 만들었는,  변환을 위해.
+	// CPU GPU 행렬 다루는 방식이 달라서!
+	transformMatrix =Matrix4::Transpose(transformMatrix);
 }
 }
