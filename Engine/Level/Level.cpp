@@ -24,4 +24,16 @@ void Level::AddActor(std::shared_ptr<Actor> newActor)
 {
 	actors.emplace_back(newActor);
 }
+std::shared_ptr<Actor> Level::GetActor(int index) const
+{
+	if(index < 0 || index >= (int)actors.size())
+	{
+		return nullptr;
+	}
+	return actors[index];
+}
+const uint32 Level::ActorCount() const
+{
+	return (uint32)actors.size();
+}
 }

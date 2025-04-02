@@ -106,38 +106,50 @@ void MeshData::UpdateVertexBuffer(const std::vector<Vertex>& vertices)
 }
 Mesh::Mesh()
 {}
-void Mesh::Draw()
+uint32 Mesh::SubMeshCount() const
 {
-	//컨텍스트 얻어오기.
-	ID3D11DeviceContext& context = Engine::Get().Context();
-
-	//트랜스폼 바인딩,
-	transform.Bind();
-
-	//루프 순회하면서, 바인딩 & 드로우.
-	for(int ix = 0; ix < (int32)meshes.size(); ix++)
-	{
-		// 원래 리소스 가져오기.
-		auto mesh = meshes[ix].lock();
-		auto shader = shaders[ix].lock();
-
-		// 리소스에 문제가 없으면 그리기.
-		if(mesh && shader)
-		{
-			mesh->Bind();
-			shader->Bind();
-			context.DrawIndexed(mesh->IndexCount(),0,0);
-		}
-
-		//shaders[ix].lock()->Bind();	//소유권이 없어서, 포인터를 읽어오는 함수 lock , - 없으면 null, 있으면, sharedptr 반환된다.
-		//auto shader = shaders[ix].lock();
-		//if(!shader)
-		//{
-		//	continue;	//물체가 여러개면, ...쉐이더 바인드 안하면, 오류내고, 다른물체 그렸는데, 반환 안되면, 전에 그린거 쓰임. 해서, 쉐이더 쓰고나서 reset 해주고, 찌꺼기 비워주는 작업해줘야 한다.
-		//	//실패할 수 있기때문에, lock 사용
-		//  // 리소스 매니저가 나중에 죽으니, 쉐이더 없어지는 경우, 간혹 있는데, 곧이어서, DX 오류가 날것임.
-		//	//정상인데 lock 걸리면, 내 문제.
-		//}
-	}
+	return (uint32)meshes.size();
 }
+std::weak_ptr<MeshData> Mesh::GetSubMesh(int index) const
+{
+	if(index < 0  || index >= (int)meshes.size())
+	{
+		return std::weak_ptr<MeshData>();
+	}//예외처리
+	return meshes[index];
+}
+//void Mesh::Draw()
+//{
+//	컨텍스트 얻어오기.
+//	ID3D11DeviceContext& context = Engine::Get().Context();
+//
+//	트랜스폼 바인딩,
+//	transform.Bind();
+//
+//	루프 순회하면서, 바인딩 & 드로우.
+//	for(int ix = 0; ix < (int32)meshes.size(); ix++)
+//	{
+//		 원래 리소스 가져오기.
+//		auto mesh = meshes[ix].lock();
+//		auto shader = shaders[ix].lock();
+//
+//		 리소스에 문제가 없으면 그리기.
+//		if(mesh && shader)
+//		{
+//			mesh->Bind();
+//			shader->Bind();
+//			context.DrawIndexed(mesh->IndexCount(),0,0);
+//		}
+//
+//		shaders[ix].lock()->Bind();	//소유권이 없어서, 포인터를 읽어오는 함수 lock , - 없으면 null, 있으면, sharedptr 반환된다.
+//		auto shader = shaders[ix].lock();
+//		if(!shader)
+//		{
+//			continue;	//물체가 여러개면, ...쉐이더 바인드 안하면, 오류내고, 다른물체 그렸는데, 반환 안되면, 전에 그린거 쓰임. 해서, 쉐이더 쓰고나서 reset 해주고, 찌꺼기 비워주는 작업해줘야 한다.
+//			//실패할 수 있기때문에, lock 사용
+//		  // 리소스 매니저가 나중에 죽으니, 쉐이더 없어지는 경우, 간혹 있는데, 곧이어서, DX 오류가 날것임.
+//			//정상인데 lock 걸리면, 내 문제.
+//		}
+//	}
+//}
 }

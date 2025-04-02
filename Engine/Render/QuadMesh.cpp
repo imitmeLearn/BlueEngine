@@ -76,7 +76,7 @@ QuadMesh::QuadMesh()
 	std::weak_ptr<TextureMappingShader> shader;
 	if(ShaderLoader::Get().Load<TextureMappingShader>(shader,"T_coord.png"))
 	{
-		shaders.emplace_back(shader);
+		//shaders.emplace_back(shader);
 	}
 }
 void QuadMesh::Update(float deltaTime)

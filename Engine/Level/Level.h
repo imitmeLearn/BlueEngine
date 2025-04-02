@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <vector>
 #include <memory>
+#include "Core\Type.h"
 
 namespace Blue{
 class Actor;	//전방선언
@@ -13,6 +14,9 @@ public:
 	virtual void BeginPlay();
 	virtual void Tick(float deltaTime);
 	void AddActor(std::shared_ptr<Actor> newActor);
+
+	std::shared_ptr<Actor> GetActor(int index) const;
+	const uint32 ActorCount() const;
 
 protected:
 	std::vector<std::shared_ptr<Actor>> actors;

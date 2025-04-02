@@ -154,19 +154,19 @@ void Renderer::Draw(std::shared_ptr<class Level> level)
 	if(mesh2 == nullptr)
 	{
 		mesh2 = std::make_unique<TriangleMesh>();
-		mesh2->transform.scale = Vector3::One*0.5f;
-		mesh2->transform.position.y = 0.5f;
+		//mesh2->transform.scale = Vector3::One*0.5f;
+		//mesh2->transform.position.y = 0.5f;
 	}
 	if(mesh_quad == nullptr)
 	{
 		mesh_quad = std::make_unique<QuadMesh>();
-		mesh_quad->transform.position.x = 0.5f;
+		//mesh_quad->transform.position.x = 0.5f;
 	}
 	if(mesh_quad2 == nullptr)
 	{
 		mesh_quad2 = std::make_unique<QuadMesh>();
-		mesh_quad2->transform.scale = Vector3::One*0.5f;
-		mesh_quad2->transform.position.x = -0.5f;
+		//mesh_quad2->transform.scale = Vector3::One*0.5f;
+		//mesh_quad2->transform.position.x = -0.5f;
 	}
 
 	//그리기 전 작업
@@ -183,8 +183,8 @@ void Renderer::Draw(std::shared_ptr<class Level> level)
 	mesh_quad2->Update(1.f/60.f);
 
 	//드로우
-	mesh_quad->Draw();
-	mesh_quad2->Draw();
+	//mesh_quad->Draw();
+	//mesh_quad2->Draw();
 	//mesh2->Draw();	//쉐이더 로더 해결!
 
 	//버퍼교환 -모니터 싱글 (EndScene/ Present)

@@ -38,15 +38,19 @@ public:
 	Mesh();
 	virtual ~Mesh() =default;
 
-	virtual void Draw();
+	//virtual void Draw();
 
 public:
 	//@Temp : 임시 트랜스폼
-	Transform transform;
+	//Transform transform;
+	//서브메시개수반환 getter
+	uint32 SubMeshCount() const;
+	//서브메시개수반환 getter
+	std::weak_ptr<MeshData> GetSubMesh(int index) const;
 
 protected:
 	std::vector<std::weak_ptr<MeshData>> meshes;	//로더 만들었으니, 변경해주기 shared_ptr -> weak_ptr	//std::vector<std::shared_ptr<MeshData>> meshes;
 	//std::vector<std::shared_ptr<class Shader>> shaders;
-	std::vector<std::weak_ptr<class Shader>> shaders;
+	//std::vector<std::weak_ptr<class Shader>> shaders;
 };
 }
