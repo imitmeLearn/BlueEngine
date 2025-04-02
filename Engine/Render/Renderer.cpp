@@ -155,6 +155,13 @@ void Renderer::Draw(std::shared_ptr<class Level> level)
 	context->ClearRenderTargetView(renderTargetView,color);
 
 	//Draw
+
+	//카메라 바인딩.
+	if(level->GetCamera())
+	{
+		level->GetCamera()->Draw();
+	}
+
 	for(uint32 ix = 0; ix <level->ActorCount(); ix++)
 	{
 		//액터 가져오기

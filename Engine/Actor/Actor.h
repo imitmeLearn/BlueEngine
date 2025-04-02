@@ -8,6 +8,7 @@ namespace Blue
 class Actor
 {
 	friend class Renderer;
+	friend class Level;
 public:
 	Actor();
 	virtual ~Actor(); //기반클래스 여서, virtual

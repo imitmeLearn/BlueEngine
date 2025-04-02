@@ -18,8 +18,11 @@ public:
 	std::shared_ptr<Actor> GetActor(int index) const;
 	const uint32 ActorCount() const;
 
+	std::shared_ptr<Actor> GetCamera() const;
+
 protected:
 	std::vector<std::shared_ptr<Actor>> actors;
+	std::shared_ptr<Actor> cameraActor;		//메인 카메라 엑터
 private:
 };
 }
