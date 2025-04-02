@@ -6,6 +6,7 @@
 #include "TriangleMesh.h"
 #include "QuadMesh.h"
 #include <Core\Common.h>
+#include "Level/Level.h"
 
 namespace 	Blue
 {
@@ -142,7 +143,7 @@ Renderer::Renderer(uint32 width,uint32 height,HWND window)
 }
 Renderer::~Renderer()
 {}
-void Renderer::Draw()
+void Renderer::Draw(std::shared_ptr<class Level> level)
 {
 	//쉐이더 객체 생성 - @임시/ㅆㄷㄴㅅ
 	if(mesh == nullptr)

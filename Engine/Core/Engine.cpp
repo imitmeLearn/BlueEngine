@@ -6,7 +6,7 @@
 #include "Resource\ShaderLoader.h"
 #include "Resource\TextureLoader.h"
 #include "Resource\ModelLoader.h"
-
+#include "Level/Level.h"
 namespace Blue
 {
 Engine* Engine:: instance = nullptr;	//싱글통 객체 설정
@@ -38,9 +38,22 @@ void Engine::Run()
 		else
 		{
 			//엔진 루프
-			renderer->Draw();
+
+			//레벨 처리
+			if(mainLevel)
+			{
+				mainLevel->BeginPlay();
+				mainLevel->Tick(1.f/60.f);
+				renderer->Draw(mainLevel);
+			}
 		}
 	}
+}
+
+//메일레밸 설정
+void Engine::SetLevel(std::shared_ptr<class Level> newLevel)
+{
+	mainLevel = newLevel;
 }
 
 //창에 관련된 메시지를 처리하는 콜백

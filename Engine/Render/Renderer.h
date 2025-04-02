@@ -16,7 +16,7 @@ public:
 	~Renderer();
 
 	//그리기 함수
-	void Draw();
+	void Draw(std::shared_ptr<class Level> level);
 
 private:
 

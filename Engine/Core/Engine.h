@@ -17,6 +17,9 @@ public:
 	//엔진 실행 함수
 	void Run ();
 
+	//메인 레벨 설정 함수
+	void SetLevel(std::shared_ptr<class Level> newLevel);
+
 	//윈도우 메시지 루프 처리
 	static LRESULT CALLBACK WindowProc(HWND handle,UINT message,WPARAM wparam,LPARAM lparam);
 
@@ -34,6 +37,9 @@ protected:
 	std::unique_ptr<class ShaderLoader> shaderLoader;	//셰이더로더 객체
 	std::unique_ptr<class TextureLoader> textureLoader;	//텍스쳐로더 객체
 	std::unique_ptr<class ModelLoader> modelLoader;		//모델 로더 객체
+
+	std::shared_ptr<class Level> mainLevel;	//메인 레벨
+
 	static Engine* instance;					//싱글톤 객체
 
 private:
