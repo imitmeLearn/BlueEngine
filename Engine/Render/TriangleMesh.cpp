@@ -25,9 +25,9 @@ TriangleMesh::TriangleMesh()
 	};
 
 	meshes.emplace_back(std::make_shared<MeshData>(vertices,indices));
-	//shaders.emplace_back(std::make_shared<Shader>());
-	std::weak_ptr<DefaultShader> shader;
-	ShaderLoader::Get().Load<DefaultShader>(shader);
-	//shaders.emplace_back(shader);
+	////shaders.emplace_back(std::make_shared<Shader>());
+	//std::weak_ptr<DefaultShader> shader;
+	//ShaderLoader::Get().Load<DefaultShader>(shader);
+	////shaders.emplace_back(shader);
 }
 }
