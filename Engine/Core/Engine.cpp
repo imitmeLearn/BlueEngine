@@ -7,6 +7,8 @@
 #include "Resource\TextureLoader.h"
 #include "Resource\ModelLoader.h"
 #include "Level/Level.h"
+
+#include <iostream>	//std::cout  출력 사용하려고 추가
 namespace Blue
 {
 Engine* Engine:: instance = nullptr;	//싱글통 객체 설정
@@ -23,6 +25,17 @@ Engine::~Engine()
 {}
 void Engine::Run()
 {
+	//타이머 (틱/델타타임.
+	LARGE_INTEGER currentTime;
+	LARGE_INTEGER previousTime;
+	LARGE_INTEGER frequency;
+
+	QueryPerformanceFrequency(&frequency);	//하드웨어 타이머의 해상도 값(기준단위)
+	QueryPerformanceCounter(&currentTime);	//현재시간
+	previousTime = currentTime;
+	float targetFrameRate = 120.f;	//프레임 계산에 사용할 변수
+	float oneframeTime = 1.f / targetFrameRate;	//고정 프레임 속도를 사용하기 위한 변수.
+
 	//메시지 처리 루프
 	MSG msg = {};
 	//while(msg.message != WM_DESTROY)
@@ -37,15 +50,33 @@ void Engine::Run()
 		//창에 메시지가 없을 때 다른 작업 처리
 		else
 		{
-			//엔진 루프
+			QueryPerformanceCounter(&currentTime);	//현재시간
+			//프레임 시간 계산
+			float deltaTime = (float)(currentTime.QuadPart - previousTime.QuadPart)
+				/ (float)frequency.QuadPart;
 
-			//레벨 처리
-			if(mainLevel)
+			if(deltaTime >= oneframeTime) //if안하면, 엄청많이 호출되기에, 너중에 컴 터짐.
 			{
-				mainLevel->BeginPlay();
-				mainLevel->Tick(1.f/60.f);
-				renderer->Draw(mainLevel);
-			}
+				//출력
+				std::cout <<"DeltaTime : "<< deltaTime
+					<<"| OneFrameTime : "<<oneframeTime
+					<<"| FPS : "<<(1.f/deltaTime)
+					<<"| FPS(int) : "<<(int)(1.f/deltaTime)
+					<<"| FPS(int)ceil : "<<(int)ceil(1.f/deltaTime) //소수점 안나오게하려고
+					<<"\n";
+
+				//엔진 루프
+
+				//레벨 처리
+				if(mainLevel)
+				{
+					mainLevel->BeginPlay();
+					mainLevel->Tick(1.f/60.f);
+					renderer->Draw(mainLevel);
+				}
+
+				previousTime = currentTime;	//프레임 시간 업데이트
+			}		//플레임 제한
 		}
 	}
 }
