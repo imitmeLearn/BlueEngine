@@ -64,6 +64,35 @@ void TestClass(){
 	//std::cout<<	std::is_base_of<Shader,TextureMappingShader>::value << "\n";
 	//std::cout<<	std::is_base_of<Shader,Engine>::value << "\n";
 }
+/*
+* TodoList.
+* - Input Controller (Window Message Process)
+* - Actor (Entity, GameObject) / Component / Scene - level
+* - FBX Loader. (Assimp / FBX SDK -> Submesh)
+* - Camera (View / Projection - Perspective, Othographic)
+*	Screen Coordinate System (NDC - Normalized Device Coordinates).
+* - Shade (Shader) - Light / Brightness / Darkness
+*	Ambient (Static/GI) / Diffuse (Lambart .../Roughness) / Specular (Highlight, Phong, Blinn-Phong, Metalic).
+* - Normal Mapping.
+* - Render Target (Draw to Texture).
+* - Shadow Mapping(Shadow Map)
+* - Environment Mapping (Sky Sphere(Box))
+* = Tone Mapping.
+*
+* - Skeletal Mesh (Skinned Mesh) - skeleton.
+*	Skeletal Mesh Animation.
+* = Physics
+*/
+
+/* 렌더링 파이프라인? 그래픽 파이브라인: 정점 변환 잘하고, 픽셀 칠 잘하는~~
+* IA 입력 정리 > VS 정점쉐이터...(Option) > RS/보간기 : 보간기가 선형보간하고,:  > PS 픽셀 쉐이더 :  >  OM 출력조립
+* vs 정점 쉐이더 : 정점 변환, 객체 월드 뷰 투영 좌표계로 변경하는 단계 ,  Skeletal Mesh 도 정점쉐이더 -> 메모리 많이 먹어, 가상뼈대심어 정점변환공식만들어서 사용하는것! 해서, staticmesh 랑 값다름.
+*		파라메타뽑아보면, ...?? 정점처리 후, 단위는 픽셀 - 뼈대 없음. 애니메이션 후, 모델링 픽셀로 나오니,
+* ps 픽셀 쉐이더 : 조명처리가 주요 목적이다. 정점 잘 넘어 왔으면, 추가로 입력받아서 조명처리하는것, pbr diffuse specular 등을 여기서 하는것. ***그래픽스의 꽃?!
+* 엔진 개발자 - 렌더러 개발자 : 렌더러 다 만들어서 사용하던 추세.; -> * 렌더링 파이프라인 이해하면 좋겠따다는 분들
+*
+*/
+
 int main()
 {
 	TestClass<TextureMappingShader>();
