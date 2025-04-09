@@ -26,11 +26,15 @@ public:
 	//싱글톤 접근 함수.
 	static Engine& Get();
 
+	//엔진 종료 함수
+	void Quit();
+
 	//GETTER.
 	ID3D11Device& Device() const;
 	ID3D11DeviceContext& Context() const;
 
 protected:
+	bool  isQuit = false;	//엔진 종료 플래스.
 
 	std::shared_ptr<class Window> window;		//창 객체
 	std::shared_ptr<class Renderer> renderer;	//렌더러 객체

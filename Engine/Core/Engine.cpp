@@ -45,6 +45,12 @@ void Engine::Run()
 	//while(msg.message != WM_DESTROY)
 	while(msg.message != WM_QUIT)		//지우고 바꾸고??
 	{
+		//엔진 종료 처리.
+		if(isQuit)
+		{
+			break;
+		}
+
 		//창에 메시지가 들어올 때 실행.
 		if(PeekMessage(&msg,nullptr,0,0,PM_REMOVE))
 		{
@@ -111,7 +117,8 @@ LRESULT Engine::WindowProc(HWND handle,UINT message,WPARAM wparam,LPARAM lparam)
 	{
 		//창이 삭제되면 ,실행
 	case WM_DESTROY:
-	PostQuitMessage(0);	//프로그램 종료 메시지 발행.
+	//PostQuitMessage(0);	//프로그램 종료 메시지 발행.
+	Engine::Get().Quit();
 	break;
 
 	//윈도우 메시제 _ 왼쪽버튼 눌렸음.
@@ -172,7 +179,7 @@ LRESULT Engine::WindowProc(HWND handle,UINT message,WPARAM wparam,LPARAM lparam)
 		uint32 height = static_cast<uint32>(HIWORD(lparam));
 
 		// 가로 / 세로 크기 값 전달.
-		Engine::Get().OnResize(width,height);
+		//Engine::Get().OnResize(width,height);
 	}
 	break;
 
