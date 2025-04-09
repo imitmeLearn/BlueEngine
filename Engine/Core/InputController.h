@@ -70,7 +70,7 @@ public:
 
 private:
 
-	KeyInputData KeyInputData[256];//키 입력 관련 변수 //256 개면, 대부분 만들 수 있다. 넉넉함
+	KeyInputData keyInputData[256];//키 입력 관련 변수 //256 개면, 대부분 만들 수 있다. 넉넉함
 	MouseInputData mouseInputData[3];//버튼 입력 관련 변수 / 좌-우-휠
 
 	////마우스 위치 변수

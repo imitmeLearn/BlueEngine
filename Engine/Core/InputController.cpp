@@ -11,15 +11,15 @@ InputController::~InputController()
 {}
 bool InputController::IsKeyDown(unsigned int keyCode)
 {
-	return KeyInputData[keyCode].isKeyDown;
+	return keyInputData[keyCode].isKeyDown;
 }
 bool InputController::IsKeyUp(unsigned int keyCode)
 {
-	return KeyInputData[keyCode].isKeyUp;
+	return keyInputData[keyCode].isKeyUp;
 }
 bool InputController::IsKey(unsigned int keyCode)
 {
-	return KeyInputData[keyCode].isKey;
+	return keyInputData[keyCode].isKey;
 }
 bool InputController::IsButtonDown(unsigned int Button)
 {
@@ -33,24 +33,47 @@ bool InputController::IsButton(unsigned int Button)
 {
 	return mouseInputData[Button].isButton;
 }
+void InputController::ResetInputs()
+{
+	for(KeyInputData& data:keyInputData)
+	{
+		data.isKeyUp = false;
+		data.isKeyDown = false;
+	}
+
+	for(MouseInputData& data : mouseInputData)
+	{
+		data.isButtonDown = false;
+		data.isButtonUp = false;
+	}
+
+	mousePreviousPosition = mousePosition;
+}
 Vector2 InputController::GetMousePosition()
 {
-	return Vector2();
+	return mousePosition;
 }
 float InputController::GetMouseDeltaX()
 {
-	return 0.0f;
+	return mousePosition.x - mousePreviousPosition.x;
 }
 float InputController::GetMouseDeltaY()
 {
-	return 0.0f;
+	return mousePosition.y - mousePreviousPosition.y;
 }
 void InputController::SetKeyUpDown(unsigned int KeyCode,bool isKeyUp,bool isKeyDown)
-{}
+{
+	keyInputData[KeyCode].SetKeyUpDown(isKeyUp,isKeyDown);
+}
 void InputController::SetButtonUpDown(unsigned int button,bool isButtonUp,bool isButtonDown)
-{}
+{
+	mouseInputData[button].SetButtonDown(isButtonUp,isButtonDown);
+}
 void InputController::SetMousePosition(int x,int y)
-{}
+{
+	mousePreviousPosition = mousePosition;
+	mousePosition = Vector2((float)x,(float)y);
+}
 InputController & InputController::Get()
 {
 	return *instance;
