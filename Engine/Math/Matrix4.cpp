@@ -1,6 +1,9 @@
 ﻿#include "Matrix4.h"
 #include <cmath>
 
+#include "DirectXMath.h"
+using namespace DirectX;
+
 //#include "DirectXMathMatrix.h"
 namespace Blue
 {
@@ -120,6 +123,8 @@ Matrix4 Matrix4::Transpose(const Matrix4 & target)
 
 Matrix4 Matrix4::Perspective(float fieldOfView,float width,float height,float nearDistance,float farDistance)
 {
+	//XMMatrixPerspectiveFovLH
+
 	float aspect  = width / height;		//종횡비 (화면, 가로서로 비율)
 	float fov = fieldOfView / 2.f * degreeToRadian;	//시야각 변환
 	float h = 1.f / std::tanf(fov);	//초점거리D
