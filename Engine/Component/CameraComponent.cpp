@@ -1,8 +1,10 @@
 ﻿#include "CameraComponent.h"
 #include "Core/Engine.h"
 #include "Core\Common.h"
+#include "Core/InputController.h"
 #include "Math\Transform.h"
 #include "Actor\Actor.h"
+
 namespace Blue
 
 {
@@ -31,6 +33,23 @@ CameraComponent::CameraComponent()
 	ThrowIfFailed(
 		device.CreateBuffer(&bufferDesc,&bufferData,&cameraBuffer),
 		TEXT("Failed to create camera buffer."));
+}
+void CameraComponent::Tick(float deltaTime)
+{
+	Component::Tick(deltaTime);
+
+	//@Test 입력테스트 ('A')
+	if(InputController::Get().IsKeyDown(VK_ESCAPE))
+	{
+		//팝업 창 띄우기
+		if(MessageBox(nullptr
+			,TEXT("WANT TO QUIT?")
+			,TEXT("QUIT ENGINE")
+			,MB_YESNO)==IDYES)
+		{
+			Engine::Get().Quit();
+		}
+	}
 }
 void CameraComponent::Draw()
 {
