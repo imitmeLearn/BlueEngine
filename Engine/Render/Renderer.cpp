@@ -216,11 +216,46 @@ void Renderer::OnResize(uint32 width,uint32 height)
 	isResizing = true;
 
 	//context 비우기
-
+	context->ClearState();
+	context->Flush();
 	//렌더 타겟 해제
+	if(renderTargetView)
+	{
+		renderTargetView->Release();
+		renderTargetView = nullptr;
+	}
 	//스왑체인 백버퍼 크기 변경
+	ThrowIfFailed(
+		swapChain->ResizeBuffers(0,width,height,DXGI_FORMAT_R8G8B8A8_UNORM,0)
+		,TEXT("Failed to resize swapChain Buffer.")
+	);
+
 	//렌더 타겟 재생성/
-	//뷰포트 업데이트.
+	ID3D11Texture2D* backbuffer = nullptr;
+	ThrowIfFailed(
+		swapChain->GetBuffer(0,IID_PPV_ARGS(&backbuffer))
+		,TEXT("Failed get Buffer from swapChain.")
+	);
+
+	ThrowIfFailed(
+		   device->CreateRenderTargetView(backbuffer,nullptr,&renderTargetView),
+		   TEXT("Failed to created render target view.")
+	);
+
+	backbuffer->Release();
+	backbuffer = nullptr;
+
+	// 뷰포트 업데이트.
+	viewport.TopLeftX = 0.0f;
+	viewport.TopLeftY = 0.0f;
+	viewport.Width = (float)width;
+	viewport.Height = (float)height;
+	viewport.MaxDepth = 1.0f;
+	viewport.MinDepth = 0.0f;
+
+	// 뷰포트 설정.
+	context->RSSetViewports(1,&viewport);
+
 	isResizing = false;
 }
 }

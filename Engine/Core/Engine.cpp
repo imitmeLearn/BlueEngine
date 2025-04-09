@@ -185,7 +185,7 @@ LRESULT Engine::WindowProc(HWND handle,UINT message,WPARAM wparam,LPARAM lparam)
 		uint32 height = static_cast<uint32>(HIWORD(lparam));
 
 		// 가로 / 세로 크기 값 전달.
-		Engine::Get().OnResize(width,height);
+		Engine::Get().OnResize(width,height); //연결
 	}
 	break;
 
@@ -218,6 +218,29 @@ LRESULT Engine::WindowProc(HWND handle,UINT message,WPARAM wparam,LPARAM lparam)
 Engine& Engine::Get()
 {
 	return *instance;
+}
+void Engine::OnResize(uint32 width,uint32 height)
+{
+	//예외처리.
+	if(!window)
+	{
+		return;
+	}
+
+	if(!renderer)
+	{
+		return;
+	}
+
+	//안전하게 //전체 창 크기에서 실제로 그려지는 영역의 크기를 구하기! ClientRect
+	RECT rect;
+	GetClientRect(window->Handle(),&rect);
+
+	uint32 w = (uint32)(rect.right - rect.left);
+	uint32 h = (uint32)(rect.bottom - rect.top);
+
+	//렌더러 크기 조절 함수 호출
+	renderer->OnResize(w,h);
 }
 void Engine::Quit()
 {
