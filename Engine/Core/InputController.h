@@ -27,7 +27,7 @@ struct MouseInputData
 	bool isButtonUp = false;
 	bool isButton = false;
 
-	void SetButtonDown(bool isButtonUp,bool isButtonDown)
+	void SetButtonUpDown(bool isButtonUp,bool isButtonDown)
 	{
 		this->isButtonUp = isButtonUp;
 		this->isButtonDown = isButtonDown;

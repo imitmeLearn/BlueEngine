@@ -112,7 +112,89 @@ LRESULT Engine::WindowProc(HWND handle,UINT message,WPARAM wparam,LPARAM lparam)
 		//창이 삭제되면 ,실행
 	case WM_DESTROY:
 	PostQuitMessage(0);	//프로그램 종료 메시지 발행.
-	return 0;
+	break;
+
+	//윈도우 메시제 _ 왼쪽버튼 눌렸음.
+	case WM_LBUTTONDOWN:
+	{
+		InputController::Get().SetButtonUpDown(0,false,true);
+	}
+	break;
+
+	case WM_LBUTTONUP:
+	{
+		InputController::Get().SetButtonUpDown(0,true,false);
+	}
+	break;
+
+	case WM_RBUTTONDOWN:
+	{
+		InputController::Get().SetButtonUpDown(1,false,true);
+	}
+	break;
+
+	case WM_RBUTTONUP:
+	{
+		InputController::Get().SetButtonUpDown(1,true,false);
+	}
+	break;
+
+	case WM_MBUTTONDOWN:
+	{
+		InputController::Get().SetButtonUpDown(2,false,true);
+	}
+	break;
+
+	case WM_MBUTTONUP:
+	{
+		InputController::Get().SetButtonUpDown(2,true,false);
+	}
+	break;
+
+	case WM_MOUSEMOVE:
+	{
+		//현재 마우스 포인터 위치 값 가져오기 - msdn WM_MOUSEMOVE 검색하면, 읽는 방법 나옴 :  https://learn.microsoft.com/ko-kr/windows/win32/inputdev/wm-mousemove
+		int xPosition = LOWORD(lparam);
+		int yPosition = HIWORD(lparam);
+
+		InputController::Get().SetMousePosition(xPosition,yPosition);
+	}
+	break;
+
+	case WM_SIZE:
+	{
+		if(wparam == SIZE_MINIMIZED)
+		{
+			break;
+		}
+
+		uint32 width = static_cast<uint32>(LOWORD(lparam));
+		uint32 height = static_cast<uint32>(HIWORD(lparam));
+
+		// 가로 / 세로 크기 값 전달.
+		Engine::Get().OnResize(width,height);
+	}
+	break;
+
+	case WM_SYSKEYDOWN:
+	case WM_SYSKEYUP:
+	case WM_KEYDOWN:
+	case WM_KEYUP:
+	{
+		// MSDN 문서를 확인해 보면, 30번째 비트는 KeyUp 상태를 나타낸다고 나옴.
+		bool isKeyUp = ((lparam & (static_cast<long long>(1) << 30)) != 0);
+
+		// MSDN 문서를 확인해 보면, 31번째 비트는 KeyDown 상태를 나타낸다고 나옴.
+		bool isKeyDown = ((lparam & (static_cast<long long>(1) << 31)) == 0);
+
+		// 엔진에 키 입력 데이터 전달.
+		if(isKeyUp != isKeyDown)
+		{
+			// 가상 키 값.
+			uint32 vkCode = static_cast<uint32>(wparam);
+			InputController::Get().SetKeyUpDown(vkCode,isKeyUp,isKeyDown);
+		}
+	} break;
 
 	default:
 	break;
@@ -123,6 +205,10 @@ LRESULT Engine::WindowProc(HWND handle,UINT message,WPARAM wparam,LPARAM lparam)
 Engine& Engine::Get()
 {
 	return *instance;
+}
+void Engine::Quit()
+{
+	isQuit = true;
 }
 ID3D11Device& Engine::Device() const
 {

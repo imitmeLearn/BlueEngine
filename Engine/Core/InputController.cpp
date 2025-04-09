@@ -67,7 +67,7 @@ void InputController::SetKeyUpDown(unsigned int KeyCode,bool isKeyUp,bool isKeyD
 }
 void InputController::SetButtonUpDown(unsigned int button,bool isButtonUp,bool isButtonDown)
 {
-	mouseInputData[button].SetButtonDown(isButtonUp,isButtonDown);
+	mouseInputData[button].SetButtonUpDown(isButtonUp,isButtonDown);
 }
 void InputController::SetMousePosition(int x,int y)
 {
