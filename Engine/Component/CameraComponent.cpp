@@ -83,10 +83,22 @@ void CameraComponent::Tick(float deltaTime)
 	if(input.IsKey('W') || input.IsKey(VK_UP))
 	{
 		//위쪽이동
-		owner->transform.position.y += 1.f*deltaTime;
+		owner->transform.position.z += 1.f*deltaTime;
 	}
 
 	if(input.IsKey('S') || input.IsKey(VK_DOWN))
+	{
+		//아래쪽이동
+		owner->transform.position.z-= 1.f*deltaTime;
+	}
+
+	if(input.IsKey('E'))
+	{
+		//위쪽이동
+		owner->transform.position.y += 1.f*deltaTime;
+	}
+
+	if(input.IsKey('Q'))
 	{
 		//아래쪽이동
 		owner->transform.position.y -= 1.f*deltaTime;

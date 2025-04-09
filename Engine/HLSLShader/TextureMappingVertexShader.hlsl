@@ -17,7 +17,6 @@ cbuffer Camera : register(b1)
 	matrix projection;
 };
 
-
 struct VertexOutput
 {
 	float4 position : SV_Position;
