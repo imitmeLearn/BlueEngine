@@ -172,6 +172,11 @@ Renderer::~Renderer()
 }
 void Renderer::Draw(std::shared_ptr<class Level> level)
 {
+	//화면 크기 변경 중일 떄는 종료.
+	if(isResizing)
+	{
+		return;
+	}
 	//그리기 전 작업
 	context->OMSetRenderTargets(1,&renderTargetView,nullptr);//초기화 전에 바인딩하고,
 
@@ -200,5 +205,22 @@ void Renderer::Draw(std::shared_ptr<class Level> level)
 
 	//버퍼교환 -모니터 싱글 (EndScene/ Present)
 	swapChain->Present(1u,0u);
+}
+void Renderer::OnResize(uint32 width,uint32 height)
+{
+	//창 변경으로 인해, 리소스 크기 조정.
+	if(!device || !context || !swapChain)
+	{
+		return;
+	}
+	isResizing = true;
+
+	//context 비우기
+
+	//렌더 타겟 해제
+	//스왑체인 백버퍼 크기 변경
+	//렌더 타겟 재생성/
+	//뷰포트 업데이트.
+	isResizing = false;
 }
 }

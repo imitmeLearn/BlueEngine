@@ -185,7 +185,7 @@ LRESULT Engine::WindowProc(HWND handle,UINT message,WPARAM wparam,LPARAM lparam)
 		uint32 height = static_cast<uint32>(HIWORD(lparam));
 
 		// 가로 / 세로 크기 값 전달.
-		//Engine::Get().OnResize(width,height);
+		Engine::Get().OnResize(width,height);
 	}
 	break;
 
