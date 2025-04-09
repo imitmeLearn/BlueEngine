@@ -116,6 +116,10 @@ Renderer::Renderer(uint32 width,uint32 height,HWND window)
 		,TEXT("fail to CreateRenderTargetView")
 	);
 
+	//사용한 리소스 해제 backbuffer
+	backbuffer->Release();
+	backbuffer= nullptr;
+
 	//대체
 	//result=	device -> CreateRenderTargetView(backbuffer,nullptr,&renderTargetView);
 
@@ -143,7 +147,29 @@ Renderer::Renderer(uint32 width,uint32 height,HWND window)
 	context -> RSSetViewports(1,&viewport);
 }
 Renderer::~Renderer()
-{}
+{
+	//DX 리소스 해제
+	if(context)
+	{
+		context->Release();
+		context = nullptr;
+	}
+	if(swapChain)
+	{
+		swapChain->Release();
+		swapChain = nullptr;
+	}
+	if(renderTargetView)
+	{
+		renderTargetView->Release();
+		renderTargetView = nullptr;
+	}
+	if(device)
+	{
+		device->Release();
+		device = nullptr;
+	}
+}
 void Renderer::Draw(std::shared_ptr<class Level> level)
 {
 	//그리기 전 작업
