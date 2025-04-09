@@ -69,5 +69,8 @@ Window::~Window()
 	UnregisterClass(className.c_str(),instance);	//클래스 등록 해제	//안 넣어도 괜찮지만, 정석이다.
 }
 void Window::SetWidhHeight(uint32 width,uint32 height)
-{}
+{
+	this->width = width;
+	this->height = height;
+}
 }
