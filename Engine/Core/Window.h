@@ -29,6 +29,10 @@ public:
 	{
 		return handle;
 	}
+	std::wstring Title() const
+	{
+		return title;
+	}
 
 private:
 

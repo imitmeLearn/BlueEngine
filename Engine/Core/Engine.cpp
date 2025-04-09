@@ -6,6 +6,8 @@
 #include "Resource\ShaderLoader.h"
 #include "Resource\TextureLoader.h"
 #include "Resource\ModelLoader.h"
+
+#include "inputController.h"
 #include "Level/Level.h"
 
 #include <iostream>	//std::cout  출력 사용하려고 추가
@@ -19,6 +21,8 @@ Engine::Engine(uint32 width,uint32 height,const std::wstring& title,HINSTANCE hI
 	shaderLoader = std::make_unique<ShaderLoader>();		//셰이더 로더 객체 생성
 	textureLoader = std::make_unique<TextureLoader>();		//셰이더 로더 객체 생성
 	modelLoader = std::make_unique<ModelLoader>();			//모델 로더 객체 생성
+	inputController = std::make_unique<InputController>();	//입력 관리자 객체 생성.
+
 	renderer= std::make_shared<Renderer>(width,height,window->Handle());	//렌더 객체 생성
 }
 Engine::~Engine()
@@ -58,12 +62,23 @@ void Engine::Run()
 			if(deltaTime >= oneframeTime) //if안하면, 엄청많이 호출되기에, 너중에 컴 터짐.
 			{
 				//출력
-				std::cout <<"DeltaTime : "<< deltaTime
-					<<"| OneFrameTime : "<<oneframeTime
-					<<"| FPS : "<<(1.f/deltaTime)
-					<<"| FPS(int) : "<<(int)(1.f/deltaTime)
-					<<"| FPS(int)ceil : "<<(int)ceil(1.f/deltaTime) //소수점 안나오게하려고
-					<<"\n";
+				//std::cout <<"DeltaTime : "<< deltaTime
+				//	<<"| OneFrameTime : "<<oneframeTime
+				//	<<"| FPS : "<<(1.f/deltaTime)
+				//	<<"| FPS(int) : "<<(int)(1.f/deltaTime)
+				//	<<"| FPS(int)ceil : "<<(int)ceil(1.f/deltaTime) //소수점 안나오게하려고
+				//	<<"\n";
+
+				wchar_t stat[512] = {};	//문자열 생성.
+				swprintf_s(stat,512,
+					TEXT("[%s] - [DeltaTime: %f] [FPS:%d]")
+					,window->Title().c_str()
+					,deltaTime
+					,(int)ceil(1.f/deltaTime)
+				);
+
+				////창 제목에 출력
+				SetWindowText(window->Handle(),stat);
 
 				//엔진 루프
 
@@ -76,6 +91,8 @@ void Engine::Run()
 				}
 
 				previousTime = currentTime;	//프레임 시간 업데이트
+
+				inputController->ResetInputs(); //입력 초기화
 			}		//플레임 제한
 		}
 	}

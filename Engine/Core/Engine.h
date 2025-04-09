@@ -37,6 +37,7 @@ protected:
 	std::unique_ptr<class ShaderLoader> shaderLoader;	//셰이더로더 객체
 	std::unique_ptr<class TextureLoader> textureLoader;	//텍스쳐로더 객체
 	std::unique_ptr<class ModelLoader> modelLoader;		//모델 로더 객체
+	std::unique_ptr<class InputController> inputController;		//입력 관리자 객체
 
 	std::shared_ptr<class Level> mainLevel;	//메인 레벨
 
