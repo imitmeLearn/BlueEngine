@@ -14,8 +14,8 @@ cbuffer Transfrom: register(b0)
 cbuffer Camera : register(b1)
 {
 	matrix view;
+	matrix projection;
 };
-
 
 struct VertexOutput
 {

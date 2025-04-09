@@ -118,6 +118,24 @@ Matrix4 Matrix4::Transpose(const Matrix4 & target)
 	return m;
 }
 
+Matrix4 Matrix4::Perspective(float fileOOfView,float width,float height,float nearDistance,float farDistance)
+{
+	float aspect  = width / height;		//종횡비 (화면, 가로서로 비율)
+	float fov = fileOOfView * 2.f * degreeToRadian;	//시야각 변환
+	float h = 1.f / std::tanf(fov);	//초점거리D
+	float w = h * aspect;
+	float A = (nearDistance + farDistance) / (farDistance - nearDistance);
+	float B = (-2.f*nearDistance + farDistance) / (farDistance - nearDistance);
+
+	Matrix4 m;	//투영행렬
+	m.m00 = w;				m.m01 = 0.f;				m.m02 = 0.f;			m.m03 = 0.f;
+	m.m10 = 0.f;			m.m11 = h;		m.m12 = 0.f;			m.m13 = 0.f;
+	m.m20 = 0.f;			m.m21 = 0.f;				m.m22 = A;				m.m23 = 1.f;
+	m.m30 = 0.f;			m.m31 = 0.f;				m.m32 = B;				m.m33 = 0.f;
+
+	return Matrix4();
+}
+
 Matrix4& Matrix4::operator=(const Matrix4& other)
 {
 	//Matrix4 m;	//반환을 위한 행렬 변수 선언(단위 행렬).

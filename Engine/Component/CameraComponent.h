@@ -7,6 +7,8 @@ namespace Blue
 struct CameraBuffer	//카메라 버퍼 (상수버퍼)
 {
 	Matrix4 viewMatrix;	//뷰 변환 행렬	//데이터 담아서, 쉐이더에 보내야 함.
+	//투영변환 행열
+	Matrix4 projectionMatrix;
 };
 class CameraComponent: public Component
 {

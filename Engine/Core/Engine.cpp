@@ -257,4 +257,12 @@ ID3D11DeviceContext& Engine::Context() const
 {
 	return *renderer->context;
 }
+uint32 Engine::Width() const
+{
+	return window->Width();
+}
+uint32 Engine::Height() const
+{
+	return window->Height();
+}
 }

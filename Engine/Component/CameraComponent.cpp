@@ -16,6 +16,15 @@ CameraComponent::CameraComponent()
 
 		// 행렬 전치.
 	data.viewMatrix = Matrix4::Transpose(data.viewMatrix);
+	data.projectionMatrix = Matrix4::Perspective(
+		90.f
+		,(float)Engine::Get().Width()
+		,(float)Engine::Get().Height()
+		,0.1f
+		,100.f
+	);
+
+	data.projectionMatrix = Matrix4::Transpose(data.projectionMatrix);
 
 	// 데이터 담아서 버퍼 생성.
 	D3D11_BUFFER_DESC bufferDesc = {};
@@ -91,11 +100,21 @@ void CameraComponent::Draw()
 	data.viewMatrix =Matrix4::Translation(owner->transform.position * -1.f)
 		* Matrix4::Transpose(Matrix4::Rotation(owner->transform.rotation));
 
+	//투영행렬
+	data.projectionMatrix = Matrix4::Perspective(
+	90.f
+	,(float)Engine::Get().Width()
+	,(float)Engine::Get().Height()
+	,0.1f
+	,100.f
+	);
+
 	static ID3D11DeviceContext& context = Engine::Get().Context();
 
 	// 전치 행렬 (CPU와 GPU가 행렬을 다루는 방식이 달라서).
 	// 행기준 행렬을 열기준 행렬로 변환하기 위해 전치행렬 처리.
 	data.viewMatrix = Matrix4::Transpose(data.viewMatrix);
+	data.projectionMatrix = Matrix4::Transpose(data.projectionMatrix);//전체 처리
 
 	// 버퍼 업데이트.
 	//context.UpdateSubresource(constantBuffer, 0, nullptr, &transformMatrix, 0, 0);

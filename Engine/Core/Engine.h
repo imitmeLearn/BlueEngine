@@ -36,6 +36,9 @@ public:
 	ID3D11Device& Device() const;
 	ID3D11DeviceContext& Context() const;
 
+	uint32 Width() const   ;
+	uint32 Height() const;
+
 protected:
 	bool  isQuit = false;	//엔진 종료 플래스.
 
