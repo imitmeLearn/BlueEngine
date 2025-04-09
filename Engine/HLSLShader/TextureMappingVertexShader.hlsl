@@ -3,6 +3,7 @@ struct VertexInput
 	float3 position : POSITION;
 	float3 color : COLOR;
 	float2 texCoord : TEXCOORD;
+	float3 normal : NORMAL;
 };
 
 //ConstantBuffer
@@ -22,6 +23,7 @@ struct VertexOutput
 	float4 position : SV_POSITION;
 	float3 color : COLOR;
 	float2 texCoord : TEXCOORD;
+	float3 normal : NORMAL;
 };
 
 VertexOutput main(VertexInput input )
@@ -34,6 +36,9 @@ VertexOutput main(VertexInput input )
 
 	output.color = input.color;
 	output.texCoord = input.texCoord;
+
+	output.normal = mul(input.normal, (float3x3) worldMatrix );
+	//쉐이더 모두 공간에서 이뤄진다? 기준은 계산에 해당하는 재료는 같은 공간 변환 처리가 끝나야 함.  조명방향은 공간이 어딜까?
 
 	return output;
 }

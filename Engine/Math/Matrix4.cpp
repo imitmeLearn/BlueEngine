@@ -105,7 +105,7 @@ Matrix4 Matrix4::Scale(float x,float y,float z)
 	return m;
 }
 
-Matrix4 Matrix4::Transpose(const Matrix4 & target)
+Matrix4 Matrix4::Transpose(const Matrix4& target)
 {
 	Matrix4  m = target;
 

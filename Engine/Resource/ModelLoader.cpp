@@ -84,9 +84,9 @@ bool ModelLoader::Load(const std::string & name,std::weak_ptr<MeshData>& outData
 				,&v2,&t2,&n2
 				,&v3,&t3,&n3);
 
-			vertices.emplace_back(positions[v1-1],Vector3::One,texCoords[t1-1]);
-			vertices.emplace_back(positions[v2-1],Vector3::One,texCoords[t2-1]);
-			vertices.emplace_back(positions[v3-1],Vector3::One,texCoords[t3-1]);
+			vertices.emplace_back(positions[v1-1],Vector3::One,texCoords[t1-1],normals[n1-1]);
+			vertices.emplace_back(positions[v2-1],Vector3::One,texCoords[t2-1],normals[n2-1]);
+			vertices.emplace_back(positions[v3-1],Vector3::One,texCoords[t3-1],normals[n3-1]);
 		}
 	}
 

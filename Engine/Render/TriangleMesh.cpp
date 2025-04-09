@@ -14,9 +14,9 @@ TriangleMesh::TriangleMesh()
 			,Vertex(Vector3(-0.5f,-0.5f,0.5f),Vector3(0.f,0.f,1.f)),*/
 
 			//texCoord 추가
-		Vertex(Vector3(0.0f,0.5f,0.5f),Vector3(1.0f,0.0f,0.0f),Vector2(0.5f,0.0f)),
-		Vertex(Vector3(0.5f,-0.5f,0.5f),Vector3(0.0f,1.0f,0.0f),Vector2(1.0f,1.0f)),
-		Vertex(Vector3(-0.5f,-0.5f,0.5f),Vector3(0.0f,0.0f,1.0f),Vector2(0.0f,1.0f)),
+		Vertex(Vector3(0.0f,0.5f,0.5f),Vector3(1.0f,0.0f,0.0f),Vector2(0.5f,0.0f),Vector3(0.f,0.f,-1.f)),
+		Vertex(Vector3(0.5f,-0.5f,0.5f),Vector3(0.0f,1.0f,0.0f),Vector2(1.0f,1.0f),Vector3(0.f,0.f,-1.f)),
+		Vertex(Vector3(-0.5f,-0.5f,0.5f),Vector3(0.0f,0.0f,1.0f),Vector2(0.0f,1.0f),Vector3(0.f,0.f,-1.f)),	//노멀 추가되었기에
 	};
 
 	std::vector<uint32> indices =	//인덱스 배열
