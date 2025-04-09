@@ -67,6 +67,7 @@ public:
 	void SetMousePosition(int x,int y);
 
 	static	InputController& Get();	//싱글톤 접근 함수.//구조 명확하지 않으면, 안정성 확보 안됨.
+	static bool  IsValid();	//셍상 여부 (유효성 판단)
 
 private:
 

@@ -6,7 +6,10 @@ namespace Blue
 InputController* InputController::instance = nullptr;
 
 InputController::InputController()
-{}
+{
+	//싱글톤 변수 설정
+	instance =this;
+}
 InputController::~InputController()
 {}
 bool InputController::IsKeyDown(unsigned int keyCode)
@@ -77,5 +80,9 @@ void InputController::SetMousePosition(int x,int y)
 InputController & InputController::Get()
 {
 	return *instance;
+}
+bool InputController::IsValid()
+{
+	return instance !=nullptr;
 }
 }

@@ -113,6 +113,12 @@ void Engine::SetLevel(std::shared_ptr<class Level> newLevel)
 //창에 관련된 메시지를 처리하는 콜백
 LRESULT Engine::WindowProc(HWND handle,UINT message,WPARAM wparam,LPARAM lparam)
 {
+	//입력 관리자가 준비 안됐으면, 종료
+	if(!InputController::IsValid())
+	{
+		return DefWindowProc(handle,message,wparam,lparam);	//메시지를 가로채서, 명시적으로 처리 하지 않으면, 문제생기기에, 넣어줌.
+	}
+
 	switch(message)
 	{
 		//창이 삭제되면 ,실행

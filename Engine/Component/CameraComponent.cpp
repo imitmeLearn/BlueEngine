@@ -38,6 +38,11 @@ void CameraComponent::Tick(float deltaTime)
 {
 	Component::Tick(deltaTime);
 
+	if(!InputController::IsValid())
+	{
+		return;
+	}
+
 	static InputController& input = InputController::Get();
 
 	//@Test 입력테스트 ('A')
