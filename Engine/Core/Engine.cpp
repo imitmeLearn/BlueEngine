@@ -232,6 +232,9 @@ void Engine::OnResize(uint32 width,uint32 height)
 		return;
 	}
 
+	//윈도우 클래스의 크기 조정
+	window -> SetWidhHeight(width,height);
+
 	//안전하게 //전체 창 크기에서 실제로 그려지는 영역의 크기를 구하기! ClientRect
 	RECT rect;
 	GetClientRect(window->Handle(),&rect);
