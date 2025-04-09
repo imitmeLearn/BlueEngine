@@ -38,8 +38,10 @@ void CameraComponent::Tick(float deltaTime)
 {
 	Component::Tick(deltaTime);
 
+	static InputController& input = InputController::Get();
+
 	//@Test 입력테스트 ('A')
-	if(InputController::Get().IsKeyDown(VK_ESCAPE))
+	if(input.IsKeyDown(VK_ESCAPE))
 	{
 		//팝업 창 띄우기
 		if(MessageBox(nullptr
@@ -49,6 +51,31 @@ void CameraComponent::Tick(float deltaTime)
 		{
 			Engine::Get().Quit();
 		}
+	}
+
+	//카메라 이동 처리
+	if(input.IsKey('A') || input.IsKey(VK_LEFT))
+	{
+		//왼쪽이동
+		owner->transform.position.x -= 1.f*deltaTime;
+	}
+
+	if(input.IsKey('D') || input.IsKey(VK_RIGHT))
+	{
+		//오른쪽이동
+		owner->transform.position.x += 1.f*deltaTime;
+	}
+
+	if(input.IsKey('W') || input.IsKey(VK_UP))
+	{
+		//위쪽이동
+		owner->transform.position.y += 1.f*deltaTime;
+	}
+
+	if(input.IsKey('S') || input.IsKey(VK_DOWN))
+	{
+		//아래쪽이동
+		owner->transform.position.y -= 1.f*deltaTime;
 	}
 }
 void CameraComponent::Draw()
