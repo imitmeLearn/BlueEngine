@@ -17,7 +17,8 @@ CameraComponent::CameraComponent()
 		// 행렬 전치.
 	data.viewMatrix = Matrix4::Transpose(data.viewMatrix);
 	data.projectionMatrix = Matrix4::Perspective(
-		90.f
+		//90.f
+		60.f
 		,(float)Engine::Get().Width()
 		,(float)Engine::Get().Height()
 		,0.1f
@@ -114,7 +115,8 @@ void CameraComponent::Draw()
 
 	//투영행렬
 	data.projectionMatrix = Matrix4::Perspective(
-	90.f
+	//90.f
+	60.f
 	,(float)Engine::Get().Width()
 	,(float)Engine::Get().Height()
 	,0.1f
