@@ -66,6 +66,9 @@ void CameraComponent::Draw()
 	,100.f
 	);
 
+	//카메라 위치 설정
+	data.cameraPosition = owner->transform.position;
+
 	static ID3D11DeviceContext& context = Engine::Get().Context();
 
 	// 전치 행렬 (CPU와 GPU가 행렬을 다루는 방식이 달라서).

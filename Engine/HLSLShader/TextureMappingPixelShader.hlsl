@@ -6,6 +6,7 @@ struct PixelInput
 	float3 color : COLOR;
 	float2 texCoord : TEXCOORD;
 	float3 normal : NORMAL;
+	float3 cameraDirection : TEXCOORD1;
 };
 
 // Texture.
@@ -30,5 +31,29 @@ float4 main(PixelInput input) : SV_TARGET
 	float4 finalColor = texColor * nDotl;
 
 
+
+	//Phong (specular)
+	float specular = 0;
+	if(nDotl)
+	{
+		float3 reflection = reflect(lightDir, worldNormal);
+		float3 viewDirection = normalize(input.cameraDirection);
+		float 	rDotv = dot(reflection, -viewDirection);
+				rDotv = saturate(rDotv);
+		float shineness = 16.f;	//집중크기 : 작으면, 넓어짐 /크면 작아짐.
+		specular = pow(rDotv,shineness);
+	}
+
+	//앰비언트 + 디퓨즈 + 하이라이트,스페큘러 = 퐁
+	finalColor = float4(0.4f,0.6f,0.8f,1)*specular;
+	return ambient;
+	
+	//스페큘러에 색 넣기
+	finalColor = float4(0.4f,0.6f,0.8f,1)*specular;
 	return finalColor;
+
+	//finalColor += specular;
+	finalColor += specular;
+	return float4(specular,specular,specular,1);
+//	return finalColor;
 }
