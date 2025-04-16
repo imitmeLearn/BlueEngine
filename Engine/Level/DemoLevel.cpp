@@ -2,6 +2,7 @@
 
 #include "Actor\Actor.h"
 #include "Actor\QuadActor.h"
+#include "Actor\CameraActor.h"
 
 #include "Render\QuadMesh.h"
 
@@ -33,9 +34,11 @@ DemoLevel::DemoLevel()
 	actor2->transform.position.x = 1.f;
 
 	//카메라 액터 생성
-	std::shared_ptr<Actor> cameraActor = std::make_shared<Actor>();
-	cameraActor->transform.position.y = -0.5f;
-	cameraActor->AddComponent(std::make_shared<CameraComponent>());
+	//std::shared_ptr<Actor> cameraActor = std::make_shared<Actor>();
+	//cameraActor->transform.position.y = -0.5f;
+	//cameraActor->AddComponent(std::make_shared<CameraComponent>());
+	std::shared_ptr<CameraActor> cameraActor = std::make_shared<CameraActor>();
+	cameraActor->transform.position.z = -3.f;
 
 	//엑터를 레벨에 추가
 	AddActor(actor);
