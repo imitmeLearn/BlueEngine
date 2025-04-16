@@ -1,9 +1,12 @@
 ﻿#include "QuadActor.h"
 #include "Component\StaticMeshComponent.h"
 #include "Render\QuadMesh.h"
+#include "Render\Texture.h"
 #include "Render\SphereMesh.h"
 #include "Shader\TextureMappingShader.h"
 #include "Resource\ShaderLoader.h"
+#include "Resource\TextureLoader.h"
+
 namespace Blue
 
 {
@@ -24,9 +27,14 @@ QuadActor::QuadActor()
 	////리소스 로드
 	std::weak_ptr<TextureMappingShader> shader;
 	//if(ShaderLoader::Get().Load<TextureMappingShader>(shader,"T_coord.png"))
-	if(ShaderLoader::Get().Load<TextureMappingShader>(shader,"T_White.png"))
+	if(ShaderLoader::Get().Load<TextureMappingShader>(shader))
 	{
 		meshComponent-> AddShader(shader);
 	}
+
+	//텍스쳐 로드 및 셰이더 에 설정
+	std::weak_ptr<Texture> texture;
+	TextureLoader::Get().Load("T_White.png",texture);
+	shader.lock()->SetTexture(texture);
 }
 }

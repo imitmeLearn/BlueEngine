@@ -20,10 +20,10 @@ QuadMesh::QuadMesh()
 	//shaders.emplace_back(std::make_shared<Shader>());	//텍스처 추가했기에, 그대로 하면, 검정화면 나옴.
 	//shaders.emplace_back(std::make_shared<TextureMappingShader>("T_coord.png"));
 	std::weak_ptr<TextureMappingShader> shader;
-	if(ShaderLoader::Get().Load<TextureMappingShader>(shader,"T_coord.png"))
-	{
-		//shaders.emplace_back(shader);
-	}
+	//if(ShaderLoader::Get().Load<TextureMappingShader>(shader,"T_coord.png"))
+	//{
+	//	//shaders.emplace_back(shader);
+	//}
 }
 void QuadMesh::Update(float deltaTime)
 {
