@@ -49,18 +49,7 @@ float4 main(PixelInput input) : SV_TARGET
 	// }
 
 	//Blinn-Phong (specular).
-	 specular = 0;
-	if(nDotl)
-	{
-		//	half vector
-		float3 viewDirection = normalize(input.cameraDirection);
-		float3 halfVector = normalize ((-lightDir)+(-viewDirection));
-
-		//nDoth
-		float nDoth =saturate(dot(worldNormal, halfVector));
-		float shineness =32.f;
-		specular = pow(nDoth, shineness);
-	}
+	specular = CalcBlinnPhong(worldNormal, lightDir, input.cameraDirection);
 
 	//Phong (specular)//앰비언트 + 디퓨즈 + 하이라이트,스페큘러 = 퐁 //Phong (specular)
 	finalColor += float4(0.4f, 0.6f, 0.8f, 1) * specular;
