@@ -4,7 +4,7 @@ struct VertexInput
 	float3 color : COLOR;
 	float2 texCoord : TEXCOORD;
 	float3 normal : NORMAL;
-	float3 cameraDirection : TEXCOORD1;
+	
 };
 
 //ConstantBuffer
