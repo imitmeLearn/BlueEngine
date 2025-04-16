@@ -15,7 +15,7 @@ QuadActor::QuadActor()
 	AddComponent(meshComponent);		//엑터에 컴포넌트 추가
 
 	//컴포넌트 설정 (원)
-	std::shared_ptr<QuadMesh> quadMesh = std::make_shared<QuadMesh>();
+	//std::shared_ptr<QuadMesh> quadMesh = std::make_shared<QuadMesh>();
 	//meshComponent->SetMesh(quadMesh);
 
 	////컴포넌트 설정 (축약)

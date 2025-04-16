@@ -28,7 +28,7 @@ private:
 	IDXGISwapChain* swapChain = nullptr;		//백 버퍼 관리하는 주체.//그림그리면, 이미지 하나 더 있어서, 다른 이미지에 그린 후, 모니터랑 바꾼다. swap //모니터에 그린느것을 front /back buffer //전면버퍼, 후면버퍼 //바꿔치는 역할
 
 	ID3D11RenderTargetView* renderTargetView = nullptr;		//리소스 //버퍼.
-	ID3D11DepthStencilView* depthStencilView = nullptr;		//리소스 //버퍼.
+	ID3D11DepthStencilView* depthStencilView = nullptr;		//뎁스	//버퍼.
 
 	D3D11_VIEWPORT viewport;	//리소스 //뷰포트.
 };

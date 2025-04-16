@@ -20,10 +20,18 @@ float4 main(PixelInput input) : SV_TARGET
 	lightDir = normalize(lightDir);
 	//World Normal
 	float3 worldNormal = normalize(input.normal);
-	//Dot. Lambert
-	float lightIntensity =saturate (dot(worldNormal, -lightDir));
 
-	float4 finalColor = texColor * lightIntensity;
+///선택
+	//Dot. Lambert
+	float nDotl =saturate (dot(worldNormal, -lightDir));
+	//Half Lambert.
+	float maxLight =0.8f;
+	nDotl = (nDotl * maxLight) + (1 - maxLight);	// 밝아짐 기본 0.5 / 0.8인경우,  0.2 더해줘야 해 그래서, 공식화 한다면,
+	nDotl = pow(nDotl, 2);	//밝음 조절 가능.
+	
+
+	//final
+	float4 finalColor = texColor * nDotl;
 
 
 	//texColor *=float4(input.color, 1.0f); 

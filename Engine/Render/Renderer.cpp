@@ -120,6 +120,41 @@ Renderer::Renderer(uint32 width,uint32 height,HWND window)
 	backbuffer->Release();
 	backbuffer= nullptr;
 
+	//뎁스 스텐실 뷰 생성
+	ID3D11Texture2D* depthStencilBuffer = nullptr;
+	D3D11_TEXTURE2D_DESC depthStencilDesc = {};
+	depthStencilDesc.Width = width;
+	depthStencilDesc.Height = height;
+	depthStencilDesc.MipLevels = 1;
+	depthStencilDesc.ArraySize = 1;
+	depthStencilDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	depthStencilDesc.SampleDesc.Count =1;
+	depthStencilDesc.SampleDesc.Quality =0;
+	depthStencilDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+
+	//2차원 리소스 생성
+	ThrowIfFailed(
+	device->CreateTexture2D(&depthStencilDesc,nullptr,&depthStencilBuffer)
+	,TEXT("failed to create depth stencil buffer")
+	);
+
+	D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc = {};
+	depthStencilViewDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	depthStencilViewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+
+	//뷰 생성.
+	ThrowIfFailed(
+	device->CreateDepthStencilView(
+		depthStencilBuffer
+		,&depthStencilViewDesc
+		,&depthStencilView)
+	,TEXT("Failed to create depth stencil view.")
+	);
+
+	// 사용한 리소스 해제.
+	depthStencilBuffer->Release();
+	depthStencilBuffer = nullptr;
+
 	//대체
 	//result=	device -> CreateRenderTargetView(backbuffer,nullptr,&renderTargetView);
 
@@ -164,6 +199,11 @@ Renderer::~Renderer()
 		renderTargetView->Release();
 		renderTargetView = nullptr;
 	}
+	if(depthStencilView)	//뎁스 스텐실 뷰 해제
+	{
+		depthStencilView->Release();
+		depthStencilView = nullptr;
+	}
 	if(device)
 	{
 		device->Release();
@@ -184,6 +224,11 @@ void Renderer::Draw(std::shared_ptr<class Level> level)
 	//float color[] = {.6f,.7f,.8f,1.f};
 	float color[] = {.7f,.8f,.95f,1.f};
 	context->ClearRenderTargetView(renderTargetView,color);
+	context->ClearDepthStencilView(depthStencilView
+		,D3D11_CLEAR_DEPTH || D3D11_CLEAR_STENCIL
+		,1.0f
+		,0
+	);
 
 	//Draw
 
@@ -224,6 +269,12 @@ void Renderer::OnResize(uint32 width,uint32 height)
 		renderTargetView->Release();
 		renderTargetView = nullptr;
 	}
+	if(depthStencilView)	//뎁스 스텐실 뷰 해제
+	{
+		depthStencilView->Release();
+		depthStencilView = nullptr;
+	}
+
 	//스왑체인 백버퍼 크기 변경
 	ThrowIfFailed(
 		swapChain->ResizeBuffers(0,width,height,DXGI_FORMAT_R8G8B8A8_UNORM,0)
@@ -244,6 +295,41 @@ void Renderer::OnResize(uint32 width,uint32 height)
 
 	backbuffer->Release();
 	backbuffer = nullptr;
+
+	//뎁스 스텐실 뷰 생성
+	ID3D11Texture2D* depthStencilBuffer = nullptr;
+	D3D11_TEXTURE2D_DESC depthStencilDesc = {};
+	depthStencilDesc.Width = width;
+	depthStencilDesc.Height = height;
+	depthStencilDesc.MipLevels = 1;
+	depthStencilDesc.ArraySize = 1;
+	depthStencilDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	depthStencilDesc.SampleDesc.Count =1;
+	depthStencilDesc.SampleDesc.Quality =0;
+	depthStencilDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+
+	//2차원 리소스 생성
+	ThrowIfFailed(
+	device->CreateTexture2D(&depthStencilDesc,nullptr,&depthStencilBuffer)
+	,TEXT("failed to create depth stencil buffer")
+	);
+
+	D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc = {};
+	depthStencilViewDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	depthStencilViewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+
+	//뷰 생성.
+	ThrowIfFailed(
+	device->CreateDepthStencilView(
+		depthStencilBuffer
+		,&depthStencilViewDesc
+		,&depthStencilView)
+	,TEXT("Failed to create depth stencil view.")
+	);
+
+	// 사용한 리소스 해제.
+	depthStencilBuffer->Release();
+	depthStencilBuffer = nullptr;
 
 	// 뷰포트 업데이트.
 	viewport.TopLeftX = 0.0f;

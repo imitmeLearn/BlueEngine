@@ -25,12 +25,12 @@ DemoLevel::DemoLevel()
 	//데모 씬 구성
 
 	std::shared_ptr<QuadActor> actor = std::make_shared<QuadActor>();	//액터생성
-	actor -> transform.position.x = 0.1f;
-	actor -> transform.scale = Vector3::One * 0.5f;
+	actor -> transform.position.x = -1.f;
+	//actor -> transform.scale = Vector3::One * 0.5f;
 
 	std::shared_ptr<QuadActor> actor2 = std::make_shared<QuadActor>();
-	actor2->transform.scale = Vector3::One * 0.5f;
-	actor2->transform.position.x = 0.6f;
+	//actor2->transform.scale = Vector3::One * 0.5f;
+	actor2->transform.position.x = 1.f;
 
 	//카메라 액터 생성
 	std::shared_ptr<Actor> cameraActor = std::make_shared<Actor>();
