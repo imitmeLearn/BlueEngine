@@ -37,41 +37,42 @@ void CameraActor::Move(float deltaTime)
 		}
 	}
 
+	static const float moveSpeed = 1.f;
 	//카메라 이동 처리
 	if(input.IsKey('A') || input.IsKey(VK_LEFT))
 	{
 		//왼쪽이동
-		transform.position.x -= 1.f*deltaTime;
+		transform.position -= transform.Right()*moveSpeed *deltaTime ;
 	}
 
 	if(input.IsKey('D') || input.IsKey(VK_RIGHT))
 	{
 		//오른쪽이동
-		transform.position.x += 1.f*deltaTime;
+		transform.position +=  transform.Right()*moveSpeed*deltaTime*moveSpeed;
 	}
 
 	if(input.IsKey('W') || input.IsKey(VK_UP))
 	{
 		//위쪽이동
-		transform.position.z += 1.f*deltaTime;
+		transform.position +=  transform.Forward()*moveSpeed*deltaTime;
 	}
 
 	if(input.IsKey('S') || input.IsKey(VK_DOWN))
 	{
 		//아래쪽이동
-		transform.position.z-= 1.f*deltaTime;
+		transform.position-=  transform.Forward()*moveSpeed*deltaTime;
 	}
 
 	if(input.IsKey('E'))
 	{
 		//위쪽이동
-		transform.position.y += 1.f*deltaTime;
+		transform.position += transform.Up()*moveSpeed*deltaTime;
 	}
 
 	if(input.IsKey('Q'))
 	{
 		//아래쪽이동
-		transform.position.y -= 1.f*deltaTime;
+		transform.position -= transform.Up()*moveSpeed*deltaTime;
 	}
 }
 void CameraActor::Rotate(float deltaTime)

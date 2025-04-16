@@ -12,6 +12,11 @@ public:
 	~Transform();
 	void Bind();
 	void Tick();
+
+	//방향 벡터 함수
+	Vector3 Right();
+	Vector3 Up();
+	Vector3 Forward();
 public:
 	Vector3 position = Vector3::Zero;	//트랜스폼(변환) 요소 (TRS)
 	Vector3 rotation = Vector3::Zero;	//트랜스폼(변환) 요소 (TRS)
