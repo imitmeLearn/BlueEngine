@@ -33,5 +33,7 @@ public:
 	Vector3 color;
 	Vector2 texCoord;	//정점 기준 텍스쳐 좌표//3차원도 있찌만, 잘 안씀.
 	Vector3 normal; //3차원의 방향값, 노멀(법선, Normal) 벡터
+	Vector3 tangent; //탄젠트(법선, Normal) 벡터
+	Vector3 bitangent; //노멀(법선,Normal) 벡터
 };
 }

@@ -5,6 +5,8 @@ struct VertexInput
 	float2 texCoord : TEXCOORD;
 	float3 normal : NORMAL;
 	
+	float3 tangent : TANGENT;
+    float3 bitangent : BITANGENT;
 };
 
 //ConstantBuffer
@@ -28,6 +30,9 @@ struct VertexOutput
 	float2 texCoord : TEXCOORD;
 	float3 normal : NORMAL;
 	float3 cameraDirection : TEXCOORD1;
+
+	float3 tangent : TANGENT;
+    float3 bitangent : BITANGENT;
 };
 
 VertexOutput main(VertexInput input )
@@ -43,8 +48,13 @@ VertexOutput main(VertexInput input )
 	output.color = input.color;
 	output.texCoord = input.texCoord;
 
+//Z
 	output.normal = mul(input.normal, (float3x3) worldMatrix );
 	//쉐이더 모두 공간에서 이뤄진다? 기준은 계산에 해당하는 재료는 같은 공간 변환 처리가 끝나야 함.  조명방향은 공간이 어딜까?
+//X
+	output.tangent = mul(input.tangent, (float3x3) worldMatrix );
+	//y
+	output.bitangent = mul(input.bitangent, (float3x3) worldMatrix );
 
 	output.cameraDirection = normalize(worldPosition - cameraDirection);
 	return output;
