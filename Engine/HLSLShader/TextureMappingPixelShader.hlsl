@@ -6,7 +6,7 @@ struct PixelInput
 	float3 color : COLOR;
 	float2 texCoord : TEXCOORD;
 	float3 normal : NORMAL;
-	float3 cameraDirection : TEXCOORD1;
+    float3 cameraDirection : TEXCOORD1;
 };
 
 // Texture.
@@ -16,7 +16,7 @@ SamplerState diffuseSampler : register(s0);
 float4 main(PixelInput input) : SV_TARGET
 {
 	// Sampling.
-    	float4 texColor = diffuseMap.Sample(diffuseSampler, input.texCoord);
+    float4 texColor = diffuseMap.Sample(diffuseSampler, input.texCoord);
 
 	//Light Dir
 	float3 lightDir = -float3(500.f, 500.f, -500.f);	
@@ -27,9 +27,12 @@ float4 main(PixelInput input) : SV_TARGET
 	//Lambert
 	float nDotl =CalcLambert(worldNormal, lightDir);
 
-	//final
-	float4 finalColor = texColor * nDotl;
+   	float4 ambient = texColor * float4(0.2f, 0.2f, 0.2f, 1);
+    float4 diffuse = texColor * nDotl;
+    float4 finalColor = ambient + diffuse;
 
+	//final
+	finalColor = texColor * nDotl;
 
 
 	//Phong (specular)
@@ -45,19 +48,34 @@ float4 main(PixelInput input) : SV_TARGET
 	// 	specular = pow(rDotv,shineness);
 	// }
 
-	//앰비언트 + 디퓨즈 + 하이라이트,스페큘러 = 퐁
-	finalColor = float4(0.4f,0.6f,0.8f,1)*specular;
+	//Blinn-Phong (specular).
+	 specular = 0;
+	if(nDotl)
+	{
+		//	half vector
+		float3 viewDirection = normalize(input.cameraDirection);
+		float3 halfVector = normalize ((-lightDir)+(-viewDirection));
+
+		//nDoth
+		float nDoth =saturate(dot(worldNormal, halfVector));
+		float shineness =32.f;
+		specular = pow(nDoth, shineness);
+	}
+
+	//Phong (specular)//앰비언트 + 디퓨즈 + 하이라이트,스페큘러 = 퐁 //Phong (specular)
+	finalColor += float4(0.4f, 0.6f, 0.8f, 1) * specular;
 	return finalColor;
 
-	finalColor = float4(0.4f,0.6f,0.8f,1)*specular;
+	finalColor += float4(0.4f,0.6f,0.8f,1)*specular;
 	//return ambient;
 	
 	//스페큘러에 색 넣기
-	finalColor = float4(0.4f,0.6f,0.8f,1)*specular;
+	finalColor += float4(0.4f,0.6f,0.8f,1)*specular;
 	return finalColor;
 
 	//finalColor += specular;
 	finalColor += specular;
 	return float4(specular,specular,specular,1);
+	//return float4(specular, specular, specular, 1);
 //	return finalColor;
 }
