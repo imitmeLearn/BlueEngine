@@ -33,20 +33,24 @@ float4 main(PixelInput input) : SV_TARGET
 
 
 	//Phong (specular)
-	float specular = 0;
-	if(nDotl)
-	{
-		float3 reflection = reflect(lightDir, worldNormal);
-		float3 viewDirection = normalize(input.cameraDirection);
-		float 	rDotv = dot(reflection, -viewDirection);
-				rDotv = saturate(rDotv);
-		float shineness = 16.f;	//집중크기 : 작으면, 넓어짐 /크면 작아짐.
-		specular = pow(rDotv,shineness);
-	}
+	 float specular = CalcPhong(worldNormal, lightDir, input.cameraDirection);
+	// float specular = 0;
+	// if(nDotl)
+	// {
+	// 	float3 reflection = reflect(lightDir, worldNormal);
+	// 	float3 viewDirection = normalize(input.cameraDirection);
+	// 	float 	rDotv = dot(reflection, -viewDirection);
+	// 			rDotv = saturate(rDotv);
+	// 	float shineness = 16.f;	//집중크기 : 작으면, 넓어짐 /크면 작아짐.
+	// 	specular = pow(rDotv,shineness);
+	// }
 
 	//앰비언트 + 디퓨즈 + 하이라이트,스페큘러 = 퐁
 	finalColor = float4(0.4f,0.6f,0.8f,1)*specular;
-	return ambient;
+	return finalColor;
+
+	finalColor = float4(0.4f,0.6f,0.8f,1)*specular;
+	//return ambient;
 	
 	//스페큘러에 색 넣기
 	finalColor = float4(0.4f,0.6f,0.8f,1)*specular;
