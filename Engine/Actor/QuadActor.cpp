@@ -4,6 +4,7 @@
 #include "Render\Texture.h"
 #include "Render\SphereMesh.h"
 #include "Shader\TextureMappingShader.h"
+#include "Shader\NormalMappingShader.h"
 #include "Resource\ShaderLoader.h"
 #include "Resource\TextureLoader.h"
 
@@ -25,16 +26,26 @@ QuadActor::QuadActor()
 	meshComponent->SetMesh(std::make_shared<SphereMesh>());
 
 	////리소스 로드
-	std::weak_ptr<TextureMappingShader> shader;
+	std::weak_ptr<NormalMappingShader> shader;
 	//if(ShaderLoader::Get().Load<TextureMappingShader>(shader,"T_coord.png"))
-	if(ShaderLoader::Get().Load<TextureMappingShader>(shader))
+	if(ShaderLoader::Get().Load<NormalMappingShader>(shader))
 	{
 		meshComponent-> AddShader(shader);
 	}
 
 	//텍스쳐 로드 및 셰이더 에 설정
-	std::weak_ptr<Texture> texture;
-	TextureLoader::Get().Load("T_White.png",texture);
-	shader.lock()->SetTexture(texture);
+	std::weak_ptr<Texture> diffuseMap;
+	TextureLoader::Get().Load("5k_earth_day_map.png",diffuseMap);
+	shader.lock()->SetTexture(NormalMappingShader::ETextureBindType::Diffuse,diffuseMap);
+
+	std::weak_ptr<Texture> normalMap;
+	TextureLoader::Get().Load("8k_earth_normal_map.png",normalMap);
+	shader.lock()->SetTexture(NormalMappingShader::ETextureBindType::NormalMap,normalMap);
+}
+void QuadActor::Tick(float deltaTime)
+{
+	Actor::Tick(deltaTime);
+	static const float rotationSpeed = 10.f;
+	transform.rotation.y += deltaTime * rotationSpeed;	//회전 -> 점이 돈다.
 }
 }

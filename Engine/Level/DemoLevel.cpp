@@ -42,7 +42,7 @@ DemoLevel::DemoLevel()
 
 	//엑터를 레벨에 추가
 	AddActor(actor);
-	AddActor(actor2);
+	//AddActor(actor2);
 	AddActor(cameraActor);	//this->cameraActor = cameraActor;
 }
 DemoLevel::~DemoLevel()
