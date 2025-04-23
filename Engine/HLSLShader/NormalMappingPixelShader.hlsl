@@ -8,23 +8,35 @@ struct PixelInput
 	float3 normal : NORMAL;
     float3 cameraDirection : TEXCOORD1;
 
-
+	float3 tangent : TANGENT;	//정점의 픽셀은, 픽셀의 입력이다
+    float3 bitangent : BITANGENT;
 };
 
 // Texture.
 Texture2D diffuseMap : register(t0);
+Texture2D normalMap : register(t1);
 SamplerState diffuseSampler : register(s0);
 
 float4 main(PixelInput input) : SV_TARGET
 {
 	// Sampling.
     float4 texColor = diffuseMap.Sample(diffuseSampler, input.texCoord);
+	float4 tangentNormal = normalMap.Sample(diffuseSampler, input.texCoord);	//면을 기준으로 Z 축으로 정의하는 특별한 공간을 기준으로, 노멀 저장하기에, 노멀에서 읽어오면, 그 노멀은 탄젠트 공간 안에 있고, 이를 월드공간으로 변형해야, 조명과 계산이 가능하다. 혹은 반대로 : 같은공간 안에 있기만 하면 된다.
+	tangentNormal = tangentNormal * 2 - 1;
+
+	// Tangent to world transformation matrix.
+	float3x3 tangentToWorld = float3x3(
+		normalize(input.tangent)	/*T - X*/
+		,normalize(input.bitangent)	/*B - Y*/
+		,normalize(input.normal)	/*N - Z*/
+	);	//공간 변환 행렬.
 
 	//Light Dir
 	float3 lightDir = -float3(500.f, 500.f, -500.f);	
 	lightDir = normalize(lightDir);
+
 	//World Normal
-	float3 worldNormal = normalize(input.normal);
+	float3 worldNormal =normalize(mul(tangentNormal.xyz, tangentToWorld));
 
 	//Lambert
 	float nDotl =CalcLambert(worldNormal, lightDir);
