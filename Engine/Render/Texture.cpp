@@ -8,11 +8,11 @@ namespace Blue
 Texture::~Texture()
 {}
 Texture::Texture(const std::string & name,BindType bindType,uint32 index)
-	:name(name),bindType(bindType),index(index)
+	:name(name),bindType(bindType)
 {
 	LoadTexture(name);
 }
-void Texture::Bind()
+void Texture::Bind(uint32 index)
 {
 	//예외처리
 	if(!textureData)

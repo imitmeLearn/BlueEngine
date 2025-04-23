@@ -8,9 +8,22 @@ namespace Blue
 class NormalMappingShader: public Shader
 {
 public:
+	//디퓨즈, 노멀맵 텍스쳐 바인딩 타입 열거형.
+	enum class ETextureBindType: uint32
+	{
+		Diffuse = 0
+		,NormalMap =1
+	};
+public:
 	NormalMappingShader();
-
+	virtual void Bind() override;
+	void SetTexture(
+		ETextureBindType bindType
+		,const std::weak_ptr<class Texture>& newTexture
+	);
 protected:
+	//텍스쳐 두장.
+	std::unordered_map<ETextureBindType,std::weak_ptr<class Texture>> textures;
 private:
 };
 }
