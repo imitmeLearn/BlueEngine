@@ -19,7 +19,7 @@ cbuffer Camera : register(b1)
 {
 	matrix view;
 	matrix projection;
-	float3 cameraDirection; //12+4 상수버퍼 강제 정렬 필요 ㅣ dx 의 경우.
+	float3 cameraPosition; //12+4 상수버퍼 강제 정렬 필요 ㅣ dx 의 경우.
 	float padding; 
 };
 
@@ -53,6 +53,6 @@ VertexOutput main(VertexInput input )
 	output.tangent = mul(input.tangent, (float3x3) worldMatrix );
 	output.bitangent = mul(input.bitangent, (float3x3) worldMatrix );
 
-	output.cameraDirection = normalize(worldPosition - cameraDirection);
+	output.cameraDirection = normalize(worldPosition - cameraPosition);
 	return output;
 }

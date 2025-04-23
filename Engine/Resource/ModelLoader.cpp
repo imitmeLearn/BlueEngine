@@ -101,7 +101,7 @@ bool ModelLoader::Load(const std::string & name,std::weak_ptr<MeshData>& outData
 	}
 
 	//탄젠트 / 바이탄젠트 (바이노멀 ) 계산.
-	for(uint32 ix = 0; ix < (uint32)vertices.size(); ix++)
+	for(uint32 ix = 0; ix < (uint32)vertices.size(); ix+=3)
 	{
 		//면을 이루는 3개의 정점 가져오기
 		Vertex& v0 = vertices[ix+0];
