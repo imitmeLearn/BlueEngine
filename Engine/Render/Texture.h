@@ -1,7 +1,9 @@
 ﻿#pragma once
 
 #include "Core\Engine.h"
-
+#include <string>
+#include <d3d11.h>
+#include <memory>
 namespace Blue
 {
 struct TextureData
@@ -9,14 +11,21 @@ struct TextureData
 	TextureData() = default;
 	~TextureData()
 	{
-		free(data);
-		data = nullptr;
-
-		shaderResourceView -> Release();
-		shaderResourceView = nullptr;
-
-		samplerState -> Release();
-		samplerState = nullptr;
+		if(data)
+		{
+			free(data);
+			data = nullptr;
+		}
+		if(shaderResourceView)
+		{
+			shaderResourceView -> Release();
+			shaderResourceView = nullptr;
+		}
+		if(samplerState)
+		{
+			samplerState -> Release();
+			samplerState = nullptr;
+		}
 	}
 
 	//텍스쳐 원시 데이터
@@ -39,14 +48,15 @@ class Texture	//텍스쳐 클래스
 	};
 
 public:
+	Texture() = default;
 	~Texture();
 	Texture(const std::string& name
 			,BindType bindType = BindType::PixelShader
 			,uint32 index = 0u);//텍스쳐 순번
 	void Bind(uint32 index=0);
-private:
+protected:	//접근가능하도록
 	void LoadTexture(const std::string& name);
-private:
+protected:	//접근가능하도록
 	std::string name;	//이미지 이름
 	BindType bindType = BindType::PixelShader;	//바인딩 쉐이더 타입
 	std::unique_ptr<TextureData> textureData;	//텍스처 데이터
