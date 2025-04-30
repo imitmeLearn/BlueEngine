@@ -6,6 +6,9 @@
 
 #include "Level/DemoLevel.h"
 
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
 /*
 typedef LRESULT(CALLBACK* WNDPROC)(HWND, UINT, WPARAM, LPARAM);	//원본
 LRESULT CALLBACK WindowProc(HWND, UINT, WPARAM, LPARAM);	//가능//사용하는거
@@ -97,6 +100,8 @@ void TestClass(){
 
 int main()
 {
+	_CrtSetDbgFlag (_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+
 	TestClass<TextureMappingShader>();
 	//TestClass<Engine>();	//템플릿 인스턴스 없어서, 빨간줄...억지로 만들려고 함녀 문제되는...//타입잘못지정하면, 에러나니, 인지할 수 있음
 
